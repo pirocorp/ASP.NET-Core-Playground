@@ -39,7 +39,11 @@
         /// <returns>IServiceCollection (IoC Container) with added AutoMapper.</returns>
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
-            AutoMapperConfig.RegisterMappings(AppDomain.CurrentDomain.GetAssemblies());  // Get all mapping configurations and build automapper instance
+            AutoMapperConfig
+                .RegisterMappings(AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(a => a.GetName().Name is not null 
+                        && a.GetName().Name.Contains(nameof(BookShop)))
+                    .ToArray());  // Get all mapping configurations and build automapper instance
 
             services.AddSingleton(AutoMapperConfig.MapperInstance); // Add mapper instance as singleton to IoC Container, it can be injected as IMapper
 
