@@ -1,9 +1,14 @@
 ﻿namespace BookShop.Services.Implementations
 {
     using System.Linq;
-    using Common.Mapping;
-    using Data;
-    using Models.Author;
+    using System.Threading.Tasks;
+
+    using BookShop.Common.Mapping;
+    using BookShop.Data;
+    using BookShop.Data.Models;
+    using BookShop.Services.Models.Author;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class AuthorService : IAuthorService
     {
@@ -14,9 +19,24 @@
             this.dbContext = dbContext;
         }
 
-        public AuthorDetailsServiceModel Details(int id)
-            => this.dbContext.Authors
+        public async Task<AuthorDetailsServiceModel> DetailsAsync(int id)
+            => await this.dbContext.Authors
                 .Where(a => a.Id.Equals(id))
-                .To<AuthorDetailsServiceModel>().FirstOrDefault();
+                .To<AuthorDetailsServiceModel>()
+                .FirstOrDefaultAsync();
+
+        public async Task<int> CreateAsync(string firstName, string lastName)
+        {
+            var author = new Author()
+            {
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            await this.dbContext.AddAsync(author);
+            await this.dbContext.SaveChangesAsync();
+
+            return author.Id;
+        }
     }
 }
