@@ -1,13 +1,17 @@
 ﻿namespace BookShop.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using static DataConstants;
 
     public class Book : Microsoft.EntityFrameworkCore.IEntityTypeConfiguration<Book>
     {
         public Book()
         {
-            this.Categories = new System.Collections.Generic.HashSet<BookCategory>();
+            this.Categories = new HashSet<BookCategory>();
         }
 
         public int Id { get; set; }
@@ -29,15 +33,15 @@
 
         public int? AgeRestriction { get; set; }
 
-        public System.DateTime ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; }
 
         public int AuthorId { get; set; }
 
         public Author Author { get; set; }
 
-        public System.Collections.Generic.IEnumerable<BookCategory> Categories { get; set; }
+        public IEnumerable<BookCategory> Categories { get; set; }
 
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Book> book)
+        public void Configure(EntityTypeBuilder<Book> book)
         {
             book
                 .HasOne(b => b.Author)

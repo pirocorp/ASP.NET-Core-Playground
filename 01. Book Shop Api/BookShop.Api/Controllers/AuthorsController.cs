@@ -1,5 +1,6 @@
 ﻿namespace BookShop.Api.Controllers
 {
+    using System;
     using BookShop.Api.Infrastructure.Extensions;
     using BookShop.Services;
 
@@ -7,7 +8,7 @@
     using Models.Authors;
 
     using System.Threading.Tasks;
-
+    using Infrastructure.Filters;
     using static WebConstants;
 
     public class AuthorsController : BaseController
@@ -22,16 +23,12 @@
         [HttpGet(WithId)]
         public async Task<IActionResult> Get(int id) => this.OkOrNotFound(await this.authorService.DetailsAsync(id));
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]PostAuthorRequestModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
+        [HttpGet(WithId + "/books")]
+        public async Task<IActionResult> GetBooks(int id) => this.Ok(await this.authorService.Books(id));
 
-            var result = await this.authorService.CreateAsync(model.FirstName, model.LastName);
-            return this.Ok(result);
-        }
+        [HttpPost]
+        [ValidateModelState]
+        public async Task<IActionResult> Post([FromBody] PostAuthorRequestModel model)
+            => this.Ok(await this.authorService.CreateAsync(model.FirstName, model.LastName));
     }
 }

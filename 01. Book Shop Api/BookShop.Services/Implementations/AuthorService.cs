@@ -1,5 +1,6 @@
 ﻿namespace BookShop.Services.Implementations
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -19,12 +20,6 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<AuthorDetailsServiceModel> DetailsAsync(int id)
-            => await this.dbContext.Authors
-                .Where(a => a.Id.Equals(id))
-                .To<AuthorDetailsServiceModel>()
-                .FirstOrDefaultAsync();
-
         public async Task<int> CreateAsync(string firstName, string lastName)
         {
             var author = new Author()
@@ -38,5 +33,17 @@
 
             return author.Id;
         }
+
+        public async Task<AuthorDetailsServiceModel> DetailsAsync(int id)
+            => await this.dbContext.Authors
+                .Where(a => a.Id.Equals(id))
+                .To<AuthorDetailsServiceModel>()
+                .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<BooksByAuthorServiceModel>> Books(int authorId)
+            => await this.dbContext.Books
+                .Where(b => b.AuthorId.Equals(authorId))
+                .To<BooksByAuthorServiceModel>()
+                .ToListAsync();
     }
 }
