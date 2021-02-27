@@ -23,7 +23,7 @@
                 .Where(t => t.IsClass && t.GetInterfaces().Any(i => i.Name.Equals($"I{t.Name}")))
                 .Select(t => new
                 {
-                    Interface = t.GetInterface($"{t.Name}"),
+                    Interface = t.GetInterface($"I{t.Name}"),
                     Implementation = t
                 })
                 .ToList()

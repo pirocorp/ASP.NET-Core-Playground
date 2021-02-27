@@ -29,11 +29,13 @@ namespace BookShop.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookShop.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookShop Api", Version = "v1" });
             });
 
             services.AddDomainServices();
             services.AddAutoMapper();
+
+            services.AddRouting(routing => routing.LowercaseUrls = true);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
