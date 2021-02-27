@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Models.Author;
+
+    using BookShop.Services.Models.Author;
+    using BookShop.Services.Models.Book;
 
     public interface IAuthorService
     {
@@ -10,6 +12,8 @@
 
         Task<AuthorDetailsServiceModel> DetailsAsync(int id);
 
-        Task<IEnumerable<BooksByAuthorServiceModel>> Books(int authorId);
+        Task<IEnumerable<BooksByAuthorServiceModel>> BooksAsync(int authorId);
+
+        Task<bool> ExistsAsync(int id);
     }
 }

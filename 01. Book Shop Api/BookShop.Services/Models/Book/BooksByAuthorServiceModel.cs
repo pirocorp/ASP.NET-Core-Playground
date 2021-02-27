@@ -1,8 +1,9 @@
-﻿namespace BookShop.Services.Models.Author
+﻿namespace BookShop.Services.Models.Book
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using AutoMapper;
     using BookShop.Common.Mapping;
     using BookShop.Data.Models;
@@ -27,7 +28,7 @@
 
         public IEnumerable<string> Categories { get; set; }
 
-        public void CreateMappings(IProfileExpression book)
+        public virtual void CreateMappings(IProfileExpression book)
         {
             book
                 .CreateMap<Book, BooksByAuthorServiceModel>()

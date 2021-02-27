@@ -10,6 +10,7 @@
     using BookShop.Services.Models.Author;
 
     using Microsoft.EntityFrameworkCore;
+    using Models.Book;
 
     public class AuthorService : IAuthorService
     {
@@ -40,10 +41,13 @@
                 .To<AuthorDetailsServiceModel>()
                 .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<BooksByAuthorServiceModel>> Books(int authorId)
+        public async Task<IEnumerable<BooksByAuthorServiceModel>> BooksAsync(int authorId)
             => await this.dbContext.Books
                 .Where(b => b.AuthorId.Equals(authorId))
                 .To<BooksByAuthorServiceModel>()
                 .ToListAsync();
+
+        public async Task<bool> ExistsAsync(int id)
+            => await this.dbContext.Authors.AnyAsync(a => a.Id.Equals(id));
     }
 }

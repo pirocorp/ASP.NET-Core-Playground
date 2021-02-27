@@ -11,7 +11,7 @@
     {
         public Book()
         {
-            this.Categories = new HashSet<BookCategory>();
+            this.Categories = new List<BookCategory>();
         }
 
         public int Id { get; set; }
@@ -39,7 +39,7 @@
 
         public Author Author { get; set; }
 
-        public IEnumerable<BookCategory> Categories { get; set; }
+        public List<BookCategory> Categories { get; set; }
 
         public void Configure(EntityTypeBuilder<Book> book)
         {

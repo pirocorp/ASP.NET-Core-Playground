@@ -24,7 +24,7 @@
         public async Task<IActionResult> Get(int id) => this.OkOrNotFound(await this.authorService.DetailsAsync(id));
 
         [HttpGet(WithId + "/books")]
-        public async Task<IActionResult> GetBooks(int id) => this.Ok(await this.authorService.Books(id));
+        public async Task<IActionResult> GetBooks(int id) => this.Ok(await this.authorService.BooksAsync(id));
 
         [HttpPost]
         [ValidateModelState]
