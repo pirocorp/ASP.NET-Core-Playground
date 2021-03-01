@@ -23,6 +23,20 @@
         public async Task<bool> ExistsAsync(int id)
             => await this.dbContext.Books.AnyAsync(a => a.Id.Equals(id));
 
+        public async Task<IEnumerable<BookListingServiceModel>> AllAsync(string searchWord)
+            => await this.dbContext.Books
+                .Where(b => b.Title.ToLower().Contains(searchWord.ToLower()) || b.Description.ToLower().Contains(searchWord.ToLower()))
+                .OrderBy(b => b.Title)
+                .Take(10)
+                .To<BookListingServiceModel>()
+                .ToListAsync();
+
+        public async Task<BookDetailsServiceModel> DetailsAsync(int id)
+            => await this.dbContext.Books
+                .Where(b => b.Id.Equals(id))
+                .To<BookDetailsServiceModel>()
+                .FirstOrDefaultAsync();
+
         public async Task<int> CreateAsync(string title, string description, decimal price, int copies, int? edition, int? ageRestriction,
             DateTime releaseDate, int authorId, string categories)
         {
@@ -96,18 +110,12 @@
             return book.Id;
         }
 
-        public async Task<IEnumerable<BookListingServiceModel>> AllAsync(string searchWord)
-            => await this.dbContext.Books
-                .Where(b => b.Title.ToLower().Contains(searchWord.ToLower()) || b.Description.ToLower().Contains(searchWord.ToLower()))
-                .OrderBy(b => b.Title)
-                .Take(10)
-                .To<BookListingServiceModel>()
-                .ToListAsync();
+        public async Task DeleteAsync(int id)
+        {
+            var book = await this.dbContext.Books.FirstAsync(b => b.Id.Equals(id));
 
-        public async Task<BookDetailsServiceModel> DetailsAsync(int id)
-            => await this.dbContext.Books
-                .Where(b => b.Id.Equals(id))
-                .To<BookDetailsServiceModel>()
-                .FirstOrDefaultAsync();
+            this.dbContext.Remove(book);
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }

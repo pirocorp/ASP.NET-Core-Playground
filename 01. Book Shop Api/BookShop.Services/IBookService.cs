@@ -35,5 +35,7 @@
             int? ageRestriction,
             DateTime releaseDate,
             int authorId);
+
+        Task DeleteAsync(int id);
     }
 }

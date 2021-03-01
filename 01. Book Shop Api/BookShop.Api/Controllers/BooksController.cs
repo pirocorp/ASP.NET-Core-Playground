@@ -60,7 +60,7 @@
                 return this.BadRequest("Author does not exist.");
             }
 
-            if (!await this.bookService.ExistsAsync(model.AuthorId))
+            if (!await this.bookService.ExistsAsync(id))
             {
                 return this.BadRequest("Book does not exist.");
             }
@@ -77,6 +77,18 @@
                 model.AuthorId);
 
             return this.Ok(id);
+        }
+
+        [HttpDelete(WithId)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!await this.bookService.ExistsAsync(id))
+            {
+                return this.BadRequest("Book does not exist.");
+            }
+
+            await this.bookService.DeleteAsync(id);
+            return this.Ok();
         }
     }
 }
