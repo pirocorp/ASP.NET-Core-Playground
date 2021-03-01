@@ -20,7 +20,10 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> Create(string title, string description, decimal price, int copies, int? edition, int? ageRestriction,
+        public async Task<bool> ExistsAsync(int id)
+            => await this.dbContext.Books.AnyAsync(a => a.Id.Equals(id));
+
+        public async Task<int> CreateAsync(string title, string description, decimal price, int copies, int? edition, int? ageRestriction,
             DateTime releaseDate, int authorId, string categories)
         {
             var categoryNames = categories
@@ -72,6 +75,24 @@
             await this.dbContext.AddAsync(book);
             await this.dbContext.SaveChangesAsync();
 
+            return book.Id;
+        }
+
+        public async Task<int> UpdateAsync(int id, string title, string description, decimal price, int copies, int? edition, int? ageRestriction,
+            DateTime releaseDate, int authorId)
+        {
+            var book = await this.dbContext.Books.FirstAsync(b => b.Id.Equals(id));
+
+            book.Title = title;
+            book.Description = description;
+            book.Price = price;
+            book.Copies = copies;
+            book.Edition = edition;
+            book.AgeRestriction = ageRestriction;
+            book.ReleaseDate = releaseDate;
+            book.AuthorId = authorId;
+
+            await this.dbContext.SaveChangesAsync();
             return book.Id;
         }
 

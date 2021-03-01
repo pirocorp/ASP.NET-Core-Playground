@@ -37,7 +37,7 @@
                 return this.BadRequest("Author does not exist.");
             }
 
-            var id = await this.bookService.Create(
+            var id = await this.bookService.CreateAsync(
                 model.Title,
                 model.Description,
                 model.Price,
@@ -47,6 +47,34 @@
                 model.ReleaseDate,
                 model.AuthorId,
                 model.Categories);
+
+            return this.Ok(id);
+        }
+
+        [HttpPut(WithId)]
+        [ValidateModelState]
+        public async Task<IActionResult> Put([FromBody] UpdateBookRequestModel model, int id)
+        {
+            if (!await this.authorService.ExistsAsync(model.AuthorId))
+            {
+                return this.BadRequest("Author does not exist.");
+            }
+
+            if (!await this.bookService.ExistsAsync(model.AuthorId))
+            {
+                return this.BadRequest("Book does not exist.");
+            }
+
+            id = await this.bookService.UpdateAsync(
+                id, 
+                model.Title,
+                model.Description,
+                model.Price,
+                model.Copies,
+                model.Edition,
+                model.AgeRestriction,
+                model.ReleaseDate,
+                model.AuthorId);
 
             return this.Ok(id);
         }
