@@ -1,0 +1,13 @@
+﻿@page "{name}"
+@model RoutingExample.Pages.ProductDetails.IndexModel
+@{
+    this.ViewData["Title"] = "ProductDetails";
+}
+
+<h1>@(this.Model.Selected.Name)</h1>
+
+<dl>
+    <dt>Price</dt>
+    <dd>$@(this.Model.Selected.Price)</dd>
+</dl>
+

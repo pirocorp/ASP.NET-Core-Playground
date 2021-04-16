@@ -1,0 +1,9 @@
+﻿@page "{name}"
+@model RoutingExample.Pages.ProductsModel
+@{
+    this.ViewData["Title"] = "Products";
+}
+
+<h1>@(this.Model.Selected.Name)</h1>
+
+<a asp-page="/ProductDetails/Index" asp-route-name="@(this.Model.Name)">View details</a>
