@@ -1,11 +1,11 @@
 ﻿@{
-    Layout = "_Layout";
+    this.Layout = "_Layout";
 }
 <div class="row">
     <div class="col-sm-8">
-        @RenderBody()
+        @(this.RenderBody())
     </div>
     <div class="col-sm-4">
-        @RenderSection("Sidebar", required: true)
+        @(this.RenderSection("Sidebar", required: true))
     </div>
 </div>

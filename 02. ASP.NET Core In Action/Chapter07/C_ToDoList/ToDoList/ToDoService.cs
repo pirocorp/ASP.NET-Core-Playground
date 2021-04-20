@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ToDoList
+﻿namespace ToDoList
 {
+    using System.Collections.Generic;
+
     public class ToDoService
     {
-        public List<ToDoItem> AllItems {get;} = new List<ToDoItem>
+        public List<ToDoItem> AllItems { get; } = new()
         {
             new ToDoItem(1, "Buy milk", "Buy eggs", "Buy bread"),
             new ToDoItem(2, "Pick up kids", "Take kids to school"),

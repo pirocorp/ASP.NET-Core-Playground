@@ -2,7 +2,7 @@
 @model ToDoList.Pages.ViewToDoModel
 
 <p>
-    @if (Model.ToDo.IsComplete)
+    @if (this.Model.ToDo.IsComplete)
     {
         <strong>Well done, you’re all done!</strong>
     }
@@ -10,7 +10,7 @@
     {
         <strong>The following tasks remain:</strong>
         <ul>
-            @foreach (var task in Model.ToDo.Tasks)
+            @foreach (var task in this.Model.ToDo.Tasks)
             {
                 <li>@task</li>
             }
