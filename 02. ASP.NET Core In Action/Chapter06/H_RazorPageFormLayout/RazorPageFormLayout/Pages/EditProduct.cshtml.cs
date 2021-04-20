@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace RazorPageFormLayout.Pages
+﻿namespace RazorPageFormLayout.Pages
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class EditProductModel : PageModel
     {
         private readonly ProductService _productService;
+
         public EditProductModel(ProductService productService)
         {
-            _productService = productService;
+            this._productService = productService;
         }
 
         [BindProperty]
@@ -21,36 +19,36 @@ namespace RazorPageFormLayout.Pages
         
         public IActionResult OnGet(int id)
         {
-            var product = _productService.GetProduct(id);
+            var product = this._productService.GetProduct(id);
             if(product is null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            Input = new InputModel
+            this.Input = new InputModel
             {
                 Name = product.ProductName,
                 Price = product.SellPrice,
             };
-            return Page();
+
+            return this.Page();
         }
 
         public IActionResult OnPost(int id)
         {
-            var product = _productService.GetProduct(id);
+            var product = this._productService.GetProduct(id);
             if (product is null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return Page();
+                return this.Page();
             }
 
-            _productService.UpdateProduct(id, Input.Name, Input.Price);
-
-            return RedirectToPage("Index");
+            this._productService.UpdateProduct(id, this.Input.Name, this.Input.Price);
+            return this.RedirectToPage("Index");
         }
 
 

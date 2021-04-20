@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ToDoList
+﻿namespace ToDoList
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class ToDoService
     {
         public ICollection<ToDoModel> GetToDoItems(string category, string username)
@@ -17,7 +17,7 @@ namespace ToDoList
         /// <summary>
         /// This represents our 'database' of stored values. We are using a C# 7 tuple as the key value
         /// </summary>
-        private readonly static List<ToDoModel> _toDos
+        private static readonly List<ToDoModel> _toDos
             = new List<ToDoModel>
             {
             new ToDoModel {

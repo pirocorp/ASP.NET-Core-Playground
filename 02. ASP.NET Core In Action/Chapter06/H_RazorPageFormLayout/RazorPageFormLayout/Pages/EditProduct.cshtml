@@ -1,10 +1,10 @@
 ﻿@page "{id}"
 @model RazorPageFormLayout.Pages.EditProductModel
 @{
-    ViewData["Title"] = "Product";
+    this.ViewData["Title"] = "Product";
 }
 
-<h1>Edit @Model.Input.Name</h1>
+<h1>Edit @(this.Model.Input.Name)</h1>
 
 <form method="post">
     <div class="form-group">

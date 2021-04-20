@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace ValidatingWithDataAnnotations.Pages
+﻿namespace ValidatingWithDataAnnotations.Pages
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class CheckoutModel : PageModel
     {
         [BindProperty]
@@ -18,14 +15,14 @@ namespace ValidatingWithDataAnnotations.Pages
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return Page();
+                return this.Page();
             }
 
             //Do something, e.g. take payment, save to database etc.
 
-            return RedirectToPage("Success");
+            return this.RedirectToPage("Success");
         }
 
         public class UserBindingModel

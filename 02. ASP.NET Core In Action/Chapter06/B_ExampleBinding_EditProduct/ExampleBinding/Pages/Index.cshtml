@@ -1,7 +1,7 @@
 ﻿@page "{handler?}/{id?}"
 @model IndexModel
 @{
-    ViewData["Title"] = "Edit Product";
+    this.ViewData["Title"] = "Edit Product";
 }
 
 <h1>Click Submit to send the model</h1>
@@ -26,27 +26,27 @@
 <form asp-page-handler="EditTwoProducts">
     <div class="form-group">
         <label>Product 1 Id</label>
-        <input class="form-control" name="product1.@nameof(Model.Product.Id)" />
+        <input class="form-control" name="product1.@nameof(this.Model.Product.Id)" />
     </div>
     <div class="form-group">
         <label>Product 1 Name</label>
-        <input class="form-control" name="product1.@nameof(Model.Product.Name)" />
+        <input class="form-control" name="product1.@nameof(this.Model.Product.Name)" />
     </div>
     <div class="form-group">
         <label>Product 1 SellPrice</label>
-        <input class="form-control" name="product1.@nameof(Model.Product.SellPrice)" />
+        <input class="form-control" name="product1.@nameof(this.Model.Product.SellPrice)" />
     </div>
     <div class="form-group">
         <label>Product 2 Id</label>
-        <input class="form-control" name="product2.@nameof(Model.Product.Id)" />
+        <input class="form-control" name="product2.@nameof(this.Model.Product.Id)" />
     </div>
     <div class="form-group">
         <label>Product 2 Name</label>
-        <input class="form-control" name="product2.@nameof(Model.Product.Name)" />
+        <input class="form-control" name="product2.@nameof(this.Model.Product.Name)" />
     </div>
     <div class="form-group">
         <label>Product 2 SellPrice</label>
-        <input class="form-control" name="product2.@nameof(Model.Product.SellPrice)" />
+        <input class="form-control" name="product2.@nameof(this.Model.Product.SellPrice)" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

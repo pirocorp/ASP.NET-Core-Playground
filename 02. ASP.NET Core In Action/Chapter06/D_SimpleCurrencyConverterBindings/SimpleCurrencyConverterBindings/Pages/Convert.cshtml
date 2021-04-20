@@ -1,9 +1,9 @@
 ﻿@page "/{currencyIn}/{currencyOut}"
 @model SimpleCurrencyConverterBindings.Pages.ConvertModel
 @{
-    ViewData["Title"] = "Convert Currency";
+    this.ViewData["Title"] = "Convert Currency";
 }
 
 <h1>Currency results</h1>
 
-<p>@Model.Values</p>
+<p>@(this.Model.Values)</p>

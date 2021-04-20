@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ListBinding
+﻿namespace ListBinding
 {
+    using System.Collections.Generic;
+
     public class CurrencyService
     {
         public static readonly Dictionary<string, decimal> AllCurrencies =

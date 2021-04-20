@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace ToDoList.Pages.ToDo
+﻿namespace ToDoList.Pages.ToDo
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class ListCategoryModel : PageModel
     {
         [BindProperty(SupportsGet = true)]
@@ -17,13 +16,18 @@ namespace ToDoList.Pages.ToDo
 
         public IActionResult OnGet()
         {
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
 
             //TODO: Validate the parameters
             var service = new ToDoService();
-            Tasks = service.GetToDoItems(Input.Category, Input.Username)
+            this.Tasks = service
+                .GetToDoItems(this.Input.Category, this.Input.Username)
                 .Select(x => new Task(x.Number, x.Title));
-            return Page();
+
+            return this.Page();
         }
 
 
@@ -40,8 +44,8 @@ namespace ToDoList.Pages.ToDo
         {
             public Task(int id, string description)
             {
-                Id = id;
-                Description = description;
+                this.Id = id;
+                this.Description = description;
             }
 
             public int Id { get; }
