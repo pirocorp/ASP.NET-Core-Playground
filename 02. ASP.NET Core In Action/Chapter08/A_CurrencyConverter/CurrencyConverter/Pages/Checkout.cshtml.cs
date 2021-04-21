@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace CurrencyConverter.Pages
+﻿namespace CurrencyConverter.Pages
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class CheckoutModel : PageModel
     {
         [BindProperty]
@@ -19,11 +16,11 @@ namespace CurrencyConverter.Pages
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return Page();
+                return this.Page();
             }
-            return RedirectToPage("Success");
+            return this.RedirectToPage("Success");
         }
 
         public class InputModel

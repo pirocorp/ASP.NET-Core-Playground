@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace CurrencyConverter.Pages
+﻿namespace CurrencyConverter.Pages
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     public class ConvertModel : PageModel
     {
         [BindProperty]
@@ -16,33 +13,33 @@ namespace CurrencyConverter.Pages
 
         public SelectListItem[] CurrencyCodes { get; } =
         {
-            new SelectListItem{Text="GBP", Value = "GBP"},
-            new SelectListItem{Text="USD", Value = "USD"},
-            new SelectListItem{Text="CAD", Value = "CAD"},
-            new SelectListItem{Text="EUR", Value = "EUR"},
+            new() {Text="GBP", Value = "GBP"},
+            new() {Text="USD", Value = "USD"},
+            new() {Text="CAD", Value = "CAD"},
+            new() {Text="EUR", Value = "EUR"},
         };
 
         public void OnGet()
         {
-            Input = new InputModel();
+            this.Input = new InputModel();
         }
 
         public IActionResult OnPost()
         {
-            if (Input.CurrencyFrom == Input.CurrencyTo)
+            if (this.Input.CurrencyFrom == this.Input.CurrencyTo)
             {
-                ModelState.AddModelError(string.Empty, "Cannot convert currency to itself");
+                this.ModelState.AddModelError(string.Empty, "Cannot convert currency to itself");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return Page();
+                return this.Page();
             }
 
             // Store the valid values somewhere (e.g. database), 
             // do the conversion etc
 
-            return RedirectToPage("Success");
+            return this.RedirectToPage("Success");
         }
 
         public class InputModel

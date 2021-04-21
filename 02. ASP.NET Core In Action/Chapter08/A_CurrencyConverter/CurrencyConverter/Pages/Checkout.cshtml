@@ -1,11 +1,11 @@
 ﻿@page
 @model CurrencyConverter.Pages.CheckoutModel
 @{
-    ViewData["Title"] = "Checkout";
+    this.ViewData["Title"] = "Checkout";
 }
-<h1>@ViewData["Title"]</h1>
+<h1>@(this.ViewData["Title"])</h1>
 
-<form method="post">
+<form asp-page="Checkout">
     <div class="form-group">
         <label asp-for="Input.FirstName"></label>
         <input class="form-control" asp-for="Input.FirstName" />

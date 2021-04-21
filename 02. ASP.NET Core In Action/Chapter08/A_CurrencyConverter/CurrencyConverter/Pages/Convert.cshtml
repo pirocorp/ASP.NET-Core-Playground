@@ -1,7 +1,7 @@
 ﻿@page
 @model CurrencyConverter.Pages.ConvertModel
 @{
-    ViewData["Title"] = "Convert currency";
+    this.ViewData["Title"] = "Convert currency";
 }
 <h1>Convert values</h1>
 <p>Choose the values </p>
@@ -9,8 +9,8 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="Input.CurrencyFrom"></label>
-        <select class="form-control dropdown" asp-for="Input.CurrencyFrom" asp-items="Model.CurrencyCodes">
-            <option value=""></option>
+        <select class="form-control dropdown" asp-for="Input.CurrencyFrom" asp-items="this.Model.CurrencyCodes">
+            <option value="" disabled selected></option>
         </select>
         <span asp-validation-for="Input.CurrencyFrom" class="text-danger"></span>
     </div>
@@ -22,7 +22,7 @@
     <div class="form-group">
         <label asp-for="Input.CurrencyTo"></label>
         <!--<input class="form-control" asp-for="Input.CurrencyTo" />-->
-        <select class="form-control dropdown" asp-for="Input.CurrencyTo" asp-items="Model.CurrencyCodes">
+        <select class="form-control dropdown" asp-for="Input.CurrencyTo" asp-items="this.Model.CurrencyCodes">
             <option value=""></option>
         </select>
         <span asp-validation-for="Input.CurrencyTo" class="text-danger"></span>
