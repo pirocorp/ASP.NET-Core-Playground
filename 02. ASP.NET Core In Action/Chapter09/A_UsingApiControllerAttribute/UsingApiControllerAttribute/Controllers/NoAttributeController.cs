@@ -13,13 +13,13 @@
         };
 
         [HttpGet]
-        public ActionResult Update()
+        public IActionResult Update()
         {
             return this.Ok(this._fruit);
         }
 
         [HttpPost]
-        public ActionResult Update([FromBody] UpdateModel model)
+        public IActionResult Update([FromBody] UpdateModel model)
         {
             if (!this.ModelState.IsValid)
             {

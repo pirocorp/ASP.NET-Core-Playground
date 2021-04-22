@@ -14,13 +14,13 @@
         };
 
         [HttpGet]
-        public ActionResult Update()
+        public IActionResult Update()
         {
             return this.Ok(this._fruit);
         }
 
         [HttpPost]
-        public ActionResult Update(UpdateModel model)
+        public IActionResult Update(UpdateModel model)
         {
             if (model.Id < 0 || model.Id > this._fruit.Count)
             {
