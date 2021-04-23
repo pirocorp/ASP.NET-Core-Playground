@@ -1,7 +1,7 @@
 ﻿@page
 @model CapturedModel
 @{
-    ViewData["Title"] = "Captured dependencies";
+    this.ViewData["Title"] = "Captured dependencies";
 }
 
-<partial name="_RowCounts" model="Model.RowCounts" />
+<partial name="_RowCounts" model="this.Model.RowCounts" />

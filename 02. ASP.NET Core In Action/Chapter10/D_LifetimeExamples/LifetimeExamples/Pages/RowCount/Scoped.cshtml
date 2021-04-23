@@ -1,7 +1,7 @@
 ﻿@page
 @model ScopedModel
 @{
-    ViewData["Title"] = "Scoped dependencies";
+    this.ViewData["Title"] = "Scoped dependencies";
 }
 
-<partial name="_RowCounts" model="Model.RowCounts" />
+<partial name="_RowCounts" model="this.Model.RowCounts" />

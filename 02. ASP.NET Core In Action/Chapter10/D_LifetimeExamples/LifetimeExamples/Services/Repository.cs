@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace LifetimeExamples.Services
+﻿namespace LifetimeExamples.Services
 {
     public class Repository
     {
         private readonly DataContext _dataContext;
+
         public Repository(DataContext dataContext)
         {
-            _dataContext = dataContext;
+            this._dataContext = dataContext;
         }
 
-        public int RowCount => _dataContext.RowCount;
+        public int RowCount => this._dataContext.RowCount;
     }
 
     public class ScopedRepository : Repository

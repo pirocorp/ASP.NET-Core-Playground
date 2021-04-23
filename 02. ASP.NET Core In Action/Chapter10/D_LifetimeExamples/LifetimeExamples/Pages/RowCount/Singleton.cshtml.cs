@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LifetimeExamples.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace LifetimeExamples.Pages
+﻿namespace LifetimeExamples.Pages
 {
+    using System.Collections.Generic;
+
+    using LifetimeExamples.Services;
+
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class SingletonModel : PageModel
     {
-        private readonly static List<RowCountViewModel.Count> _previousCounts = new(); // c#9 feature - target typing
-        public RowCountViewModel RowCounts { get; set; }
+        private static readonly List<RowCountViewModel.Count> _previousCounts = new(); // c#9 feature - target typing
 
         private readonly SingletonRepository _singletonRepo;
         private readonly SingletonDataContext _singletonDataContext;
@@ -22,19 +18,21 @@ namespace LifetimeExamples.Pages
             SingletonDataContext singletonDataContext
             )
         {
-            _singletonRepo = singletonRepo;
-            _singletonDataContext = singletonDataContext;
+            this._singletonRepo = singletonRepo;
+            this._singletonDataContext = singletonDataContext;
         }
+
+        public RowCountViewModel RowCounts { get; set; }
 
         public void OnGet()
         {
             var count = new RowCountViewModel.Count
             {
-                DataContext = _singletonDataContext.RowCount,
-                Repository = _singletonRepo.RowCount,
+                DataContext = this._singletonDataContext.RowCount,
+                Repository = this._singletonRepo.RowCount,
             };
             _previousCounts.Insert(0, count);
-            RowCounts = new RowCountViewModel
+            this.RowCounts = new RowCountViewModel
             {
                 Current = count,
                 Previous = _previousCounts,
