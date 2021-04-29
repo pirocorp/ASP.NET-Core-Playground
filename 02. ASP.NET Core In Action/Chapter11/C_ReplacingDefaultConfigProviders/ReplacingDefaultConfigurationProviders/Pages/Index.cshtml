@@ -2,13 +2,13 @@
 @model IndexModel
 @using  Microsoft.Extensions.Configuration
 @{
-    ViewData["Title"] = "Home page";
+    this.ViewData["Title"] = "Home page";
 }
 
 <h2>Your app loaded the following configuration values:</h2>
 
 <dl>
-@foreach (var pair in Model.Config.AsEnumerable())
+@foreach (var pair in this.Model.Config.AsEnumerable())
 {
     <dt>@pair.Key</dt>
     <dd>@pair.Value</dd>

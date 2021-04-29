@@ -1,5 +1,6 @@
 {
   "Extras": {
-    "ThisSetting": "Came from the extrasettings.json file"
+    "ThisSetting": "Came from the extrasettings.json file",
+    "Runtime": "Configuration edit 2" 
   }
 }

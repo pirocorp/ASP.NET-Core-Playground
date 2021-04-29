@@ -1,16 +1,16 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    this.ViewData["Title"] = "Home page";
 }
 
 
 <h4>SingleValue</h4>
-<p>@Model.Values.SingleValue</p>
+<p>@(this.Model.Values.SingleValue)</p>
 
 <h4>Multiple values</h4>
 <ul>
-    @foreach (var item in Model.Values.List)
+    @foreach (var item in this.Model.Values.List)
     {
         <li>@item</li>
     }

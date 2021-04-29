@@ -1,17 +1,17 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = Model.AppSettings.AppTitle;
+    this.ViewData["Title"] = this.Model.AppSettings.AppTitle;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3>@(this.ViewData["Title"])</h3>
 
-@if (Model.AppSettings.ShowCopyright)
+@if (this.Model.AppSettings.ShowCopyright)
 {
     <p>Mine! Hands off! ;)</p>
 }
 
-@if (string.IsNullOrEmpty(Model.MapSettings.GoogleMapsApiKey))
+@if (string.IsNullOrEmpty(this.Model.MapSettings.GoogleMapsApiKey))
 {
     <div class="alert alert-warning">
         No API key found in settings. Follow the <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">Googe Maps instructions</a> to obtain an API key, and then store it in User Secrets to make it available to your app.
@@ -23,7 +23,7 @@
 <h4>Based on <a href="https://developers.google.com/maps/documentation/javascript/adding-a-google-map">Google Maps documentation</a></h4>
 
 <ul>
-    @foreach (var store in Model.Stores)
+    @foreach (var store in this.Model.Stores)
     {
         <li data-lat="@store.Location.Latitude" data-long="@store.Location.Longitude" class="stores">
             @store.Name (@store.Location.Latitude, @store.Location.Longitude)
@@ -33,11 +33,12 @@
 
 <script>
     function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: @Model.MapSettings.DefaultZoomLevel,
-            center: {
-                lat: @Model.MapSettings.DefaultLocation.Latitude,
-                lng: @Model.MapSettings.DefaultLocation.Longitude
+        var map = new google.maps.Map(document.getElementById('map'),
+            {
+                zoom: @(this.Model.MapSettings.DefaultZoomLevel),
+                center: {
+                    lat: @(this.Model.MapSettings.DefaultLocation.Latitude),
+                    lng: @(this.Model.MapSettings.DefaultLocation.Longitude)
           }
         });
 
@@ -54,5 +55,5 @@
             });
     }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=@(Model.MapSettings.GoogleMapsApiKey)&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=@(this.Model.MapSettings.GoogleMapsApiKey)&callback=initMap">
 </script>

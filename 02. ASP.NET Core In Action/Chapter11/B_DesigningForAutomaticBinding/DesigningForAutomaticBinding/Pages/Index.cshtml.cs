@@ -1,21 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DesigningForAutomaticBinding.Pages
+﻿namespace DesigningForAutomaticBinding.Pages
 {
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Options;
+
     public class IndexModel : PageModel
     {
-        public TestOptions Options { get; }
         public IndexModel(IOptions<TestOptions> options)
         {
-            Options = options.Value;
+            this.Options = options.Value;
         }
+
+        public TestOptions Options { get; }
 
         public void OnGet()
         {
