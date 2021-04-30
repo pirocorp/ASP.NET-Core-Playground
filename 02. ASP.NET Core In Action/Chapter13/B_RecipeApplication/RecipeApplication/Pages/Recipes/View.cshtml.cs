@@ -8,6 +8,8 @@
     using RecipeApplication.Models;
 
     [PageEnsureRecipeExists]
+    // PageModel implements IPageFilter and IAsyncPageFilter so if filter is used only in one PageModel
+    // simply override the necessary Page method. 
     public class ViewModel : PageModel
     {
         private readonly RecipeService _service;

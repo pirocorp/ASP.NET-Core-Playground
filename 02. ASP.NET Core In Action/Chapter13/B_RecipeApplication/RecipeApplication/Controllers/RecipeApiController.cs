@@ -3,7 +3,6 @@
     using System.Threading.Tasks;
     using Filters;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Filters;
     using RecipeApplication.Models;
 
     [Route("api/recipe")]
