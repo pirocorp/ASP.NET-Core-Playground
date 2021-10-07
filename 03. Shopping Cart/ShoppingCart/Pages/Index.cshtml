@@ -1,0 +1,17 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@foreach (var product in this.Model.Products)
+{
+    <p>
+        @product.Title - @product.Price
+        <a class="btn btn-primary" asp-area="" asp-controller="ShoppingCart" asp-action="Add" asp-route-id=@product.Id>Buy</a>
+    </p>
+    <br />
+    <br />
+    <br />
+    <br />
+}
