@@ -1,8 +1,17 @@
 ﻿namespace CarRentingSystem
 {
     using CarRentingSystem.Data;
+    using CarRentingSystem.Infrastructure;
+    using CarRentingSystem.Services;
+    using CarRentingSystem.Services.Implementations;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -16,7 +25,7 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(
+                .AddDbContext<CarRentingDbContext>(
                     options => options
                         .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -33,15 +42,23 @@
                     options.Password.RequireUppercase = false;
                     options.Password.RequiredLength = 3;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<CarRentingDbContext>();
 
             services
                 .AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
+
+            services.AddLowercaseRouting();
+
+            services.AddTransient<ICarService, CarService>();
+            services.AddTransient<ICategoryService, CategoryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDatabaseMigrations();
+            app.SeedDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();

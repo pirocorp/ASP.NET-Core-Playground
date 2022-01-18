@@ -1,0 +1,59 @@
+﻿@model AddCarFormModel
+
+@{
+    this.ViewData["Title"] = "Add Car";
+
+    var categories = 
+        this.Model?.Categories 
+        ?? Array.Empty<CarCategoryViewModel>();
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 col-md-10">
+            <h2 class="mt-2 mb-4 text-center">Add Car</h2>
+            <form method="post">
+                <div class="form-floating mb-3">
+                    <input is-valid="@nameof(this.Model.Brand)" class="form-control" asp-for="Brand" required="required">
+                    <label asp-for="Brand"></label>
+                    <span asp-validation-for="Brand" class="small text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input is-valid="@nameof(this.Model.Model)" class="form-control" asp-for="Model" required="required">
+                    <label asp-for="Model"></label>
+                    <span asp-validation-for="Model" class="small text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input is-valid="@nameof(this.Model.ImageUrl)" class="form-control" asp-for="ImageUrl" required="required">
+                    <label asp-for="ImageUrl"></label>
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input is-valid="@nameof(this.Model.Year)" class="form-control" asp-for="Year" required="required">
+                    <label asp-for="Year"></label>
+                    <span asp-validation-for="Year" class="small text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select is-valid="@nameof(this.Model.CategoryId)" class="form-select" asp-for="CategoryId">
+                        @foreach (var category in categories)
+                        {
+                            <option value=@category.Id>@category.Name</option>
+                        }
+                    </select>
+                    <label asp-for="CategoryId">Open this select menu</label>
+                    <span asp-validation-for="CategoryId" class="small text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <textarea is-valid="@nameof(this.Model.Description)" class="form-control" rows="5" asp-for="Description" placeholder="Description" required="required"></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
