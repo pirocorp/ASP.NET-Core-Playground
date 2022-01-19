@@ -41,9 +41,20 @@
                 return this.View(car);
             }
 
-            await this.carService.AddCar(car.Brand!, car.Model!, car.Description!, car.ImageUrl!, car.Year, car.CategoryId);
+            await this.carService.Add(car.Brand!, car.Model!, car.Description!, car.ImageUrl!, car.Year, car.CategoryId);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
+        {
+            var (totalCars, carsInPage) = await this.carService.GetAll(query.Brand, query.SearchTerm, query.Sorting, query.CurrentPage);
+
+            query.Brands = await this.carService.GetBrands();
+            query.Cars = carsInPage;
+            query.TotalCars = totalCars;
+
+            return this.View(query);
         }
     }
 }

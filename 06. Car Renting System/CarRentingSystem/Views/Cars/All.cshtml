@@ -1,0 +1,88 @@
+﻿@using CarRentingSystem.Infrastructure
+@model AllCarsQueryModel
+
+@{
+    this.ViewData["Title"] = "All Cars";
+
+    if (this.Model is null)
+    {
+        throw new NullViewModelException(typeof(AllCarsQueryModel).FullName!);
+    }
+
+    var previousPage = Math.Max(1, this.Model.CurrentPage - 1);
+    var maxPage = (int)Math.Ceiling((double)this.Model.TotalCars / UIConstants.CarsPerPage);
+    var nextPage = Math.Min(maxPage, this.Model.CurrentPage + 1);
+}
+
+<div class="container">
+    <aside>
+        <form class="row mb-5" method="get">
+            <div class="mb-5 col-md-3">
+                <label asp-for="SearchTerm" class="form-label"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="BMW 640D">
+            </div>
+        
+            <div class="mb-5 col-md-3">
+                <label asp-for="Brand" class="form-label"></label>
+                <select
+                    asp-for="Brand"
+                    asp-items="@this.Model.Brands.Select(b => new SelectListItem(b, b))"
+                    class="form-select">
+                    <option value="" selected="">All</option>
+                </select>
+            </div>
+        
+            <div class="mb-5 col-md-3">
+                <label asp-for="Sorting" class="form-label"></label>
+                <select asp-for="Sorting" class="form-select">
+                    <option value="0" selected="selected">Date Created</option>
+                    <option value="1">Year</option>
+                    <option value="2">Brand And Model</option>
+                </select>
+            </div>
+
+            <div class="mb-5 col-md-3 align-self-end">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </aside>
+
+    <section class="row">
+        @foreach (var car in this.Model.Cars)
+        {
+            <article class="d-flex col-md-4 mb-5">
+                <div class="align-self-stretch card">
+                    <img src=@car.ImageUrl class="card-img-top" alt="@car.Brand @car.Model - @car.Year (@car.Category)">
+                    <div class="flex-grow-1 flex-shrink-1"></div>
+                    <div class="flex-grow-0 card-body text-center">
+                        <h5 class="card-title text-center">@car.Brand @car.Model (@car.Year)</h5>
+                        <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">View More</a>
+                    </div>
+                </div>
+            </article>
+        }
+    </section>
+    
+    <section class="row">
+        <div class="col-md-6 d-flex justify-content-start">
+            <a 
+                class="btn btn-primary @(this.Model.CurrentPage == 1 ? "disabled" : string.Empty)" 
+                asp-controller="Cars" 
+                asp-action="All" 
+                asp-route-currentPage="@previousPage"
+                asp-route-brand="@this.Model.Brand"
+                asp-route-searchTerm="@this.Model.SearchTerm"
+                asp-route-sorting="@((int)this.Model.Sorting)"><<</a>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <a 
+                class="btn btn-primary @(this.Model.CurrentPage == maxPage ? "disabled" : string.Empty)" 
+                asp-controller="Cars" 
+                asp-action="All" 
+                asp-route-currentPage="@nextPage"
+                asp-route-brand="@this.Model.Brand"
+                asp-route-searchTerm="@this.Model.SearchTerm"
+                asp-route-sorting="@((int)this.Model.Sorting)">>></a>
+        </div>
+    </section>
+</div>

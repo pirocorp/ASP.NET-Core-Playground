@@ -3,9 +3,10 @@
 @{
     this.ViewData["Title"] = "Add Car";
 
-    var categories = 
-        this.Model?.Categories 
-        ?? Array.Empty<CarCategoryViewModel>();
+    if (this.Model is null)
+    {
+        throw new NullViewModelException(typeof(AddCarFormModel).FullName!);
+    }
 }
 
 <div class="container">
@@ -38,12 +39,12 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <select is-valid="@nameof(this.Model.CategoryId)" class="form-select" asp-for="CategoryId">
-                        @foreach (var category in categories)
-                        {
-                            <option value=@category.Id>@category.Name</option>
-                        }
-                    </select>
+                    <select 
+                        class="form-select"
+                        is-valid="@nameof(this.Model.CategoryId)"
+                        asp-for="CategoryId"
+                        asp-items="@this.Model.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()))"
+                    ></select>
                     <label asp-for="CategoryId">Open this select menu</label>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>

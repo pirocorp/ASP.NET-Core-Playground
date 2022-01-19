@@ -1,8 +1,111 @@
-﻿@{
-    this.ViewData["Title"] = "Home Page";
+﻿@model IndexViewModel
+
+@{
+    this.ViewData["Title"] = "Welcome!";
+
+    if (this.Model is null)
+    {
+        throw new NullViewModelException(typeof(IndexViewModel).FullName!);
+    }
+
+    var cars = this.Model.Cars.ToList(); 
+
+    var firstCar = cars.Any() ? cars[0] : null;
+    var secondCar = cars.Count > 1 ? cars[1] : null;
+    var thirdCar = cars.Count > 2 ? cars[2] : null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@if (!cars.Any())
+{
+    <div class="p-5 mb-4 rounded-3">
+        <div class="h-100 p-5 text-dark bg-light rounded-3">
+            <h2>Welcome to the best place for renting cars!</h2>
+            <p>There is no cars in the system available currently. Be the first to add a new car.</p>
+            <a class="btn btn-outline-dark" asp-controller="Cars" asp-action="Add">Add Car</a>
+        </div>
+    </div>
+}
+
+<div id="carouselExampleIndicators" class="carousel slide mt-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        @if (firstCar != null)
+        {
+            <div class="carousel-item active">
+                <img src=@firstCar.ImageUrl class="d-block w-100" alt="@firstCar.Brand @firstCar.Model - @firstCar.Year">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>
+                        <a 
+                            class="text-decoration-none text-white"
+                            asp-controller="Cars" 
+                            asp-action="Details" 
+                            asp-route-id=@firstCar.Id
+                        >@firstCar.Brand @firstCar.Model (@firstCar.Year)</a>
+                    </h5>
+                </div>
+            </div>
+        }
+        @if (secondCar != null)
+        {
+            <div class="carousel-item">
+                <img src=@secondCar.ImageUrl class="d-block w-100" alt="@secondCar.Brand @secondCar.Model - @secondCar.Year">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>
+                        <a 
+                            class="text-decoration-none text-white"
+                            asp-controller="Cars" 
+                            asp-action="Details" 
+                            asp-route-id=@secondCar.Id
+                        >@secondCar.Brand @secondCar.Model (@secondCar.Year)</a>
+                    </h5>
+                </div>
+            </div>
+        }
+        @if (thirdCar != null)
+        {
+            <div class="carousel-item">
+                <img src=@thirdCar.ImageUrl class="d-block w-100" alt="@thirdCar.Brand @thirdCar.Model - @thirdCar.Year">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>
+                        <a 
+                            class="text-decoration-none text-white"
+                            asp-controller="Cars" 
+                            asp-action="Details" 
+                            asp-route-id=@thirdCar.Id
+                        >@thirdCar.Brand @thirdCar.Model (@thirdCar.Year)</a>
+                    </h5>
+                </div>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="row align-items-md-stretch mt-5">
+    <div class="col-md-4">
+        <h2 class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
+            @this.Model.TotalCars Cars
+        </h2>
+    </div>
+    <div class="col-md-4">
+        <h2 class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
+            @this.Model.TotalRents Rents
+        </h2>
+    </div>
+    <div class="col-md-4">
+        <h2 class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
+            @this.Model.TotalUsers Users
+        </h2>
+    </div>
 </div>
