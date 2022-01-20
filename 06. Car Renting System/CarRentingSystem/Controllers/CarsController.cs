@@ -5,7 +5,7 @@
 
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Services;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class CarsController : Controller
@@ -41,7 +41,16 @@
                 return this.View(car);
             }
 
-            await this.carService.Add(car.Brand!, car.Model!, car.Description!, car.ImageUrl!, car.Year, car.CategoryId);
+            var dealerId = car.CategoryId;
+
+            await this.carService.Add(
+                car.Brand!,
+                car.Model!,
+                car.Description!,
+                car.ImageUrl!,
+                car.Year,
+                car.CategoryId,
+                dealerId);
 
             return this.RedirectToAction(nameof(this.All));
         }

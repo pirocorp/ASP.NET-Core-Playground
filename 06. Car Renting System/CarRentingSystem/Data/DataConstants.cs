@@ -4,19 +4,24 @@
     {
         public static class Car
         {
-            public const int CarBrandMaxLength = 40;
+            public const int BrandMaxLength = 40;
+            public const int BrandMinLength = 2;
+            public const int ModelMaxLength = 40;
+            public const int ModelMinLength = 2;
+            public const int DescriptionMinLength = 10;
+            public const int YearMaxValue = 2100;
+            public const int YearMinValue = 2000;
+        }
 
-            public const int CarBrandMinLength = 2;
+        public static class Category
+        {
+            public const int NameMaxLength = 30;
+        }
 
-            public const int CarModelMaxLength = 40;
-
-            public const int CarModelMinLength = 2;
-
-            public const int CarDescriptionMinLength = 10;
-
-            public const int CarYearMaxValue = 2100;
-
-            public const int CarYearMinValue = 2000;
+        public static class Dealer
+        {
+            public const int NameMaxLength = 30;
+            public const int PhoneNumberMaxLength = 30;
         }
     }
 }

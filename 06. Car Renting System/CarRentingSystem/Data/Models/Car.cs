@@ -5,6 +5,7 @@
     public class Car
     {
         private Category? category;
+        private Dealer? dealer;
 
         public Car(
             string brand,
@@ -12,7 +13,8 @@
             string description,
             string imageUrl,
             int year,
-            int categoryId)
+            int categoryId,
+            int dealerId)
         {
             this.Brand = brand;
             this.Model = model;
@@ -20,6 +22,7 @@
             this.ImageUrl = imageUrl;
             this.Year = year;
             this.CategoryId = categoryId;
+            this.DealerId = dealerId;
         }
 
         public int Id { get; init; }
@@ -40,6 +43,14 @@
         {
             get => this.category ?? throw new UninitializedPropertyException(nameof(this.Category));
             set => this.category = value;
+        }
+
+        public int DealerId { get; init; }
+
+        public Dealer Dealer
+        {
+            get => this.dealer ?? throw new UninitializedPropertyException(nameof(this.Dealer));
+            set => this.dealer = value;
         }
     }
 }

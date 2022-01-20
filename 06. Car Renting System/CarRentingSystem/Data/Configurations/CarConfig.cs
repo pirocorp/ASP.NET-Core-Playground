@@ -1,6 +1,7 @@
 ﻿namespace CarRentingSystem.Data.Configurations
 {
     using CarRentingSystem.Data.Models;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,12 +16,12 @@
             car
                 .Property(c => c.Brand)
                 .IsRequired()
-                .HasMaxLength(CarBrandMaxLength);
+                .HasMaxLength(BrandMaxLength);
 
             car
                 .Property(c => c.Model)
                 .IsRequired()
-                .HasMaxLength(CarModelMaxLength);
+                .HasMaxLength(ModelMaxLength);
 
             car
                 .Property(c => c.Description)
@@ -34,6 +35,12 @@
                 .HasOne(c => c.Category)
                 .WithMany(c => c.Cars)
                 .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            car
+                .HasOne(c => c.Dealer)
+                .WithMany(d => d.Cars)
+                .HasForeignKey(c => c.DealerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

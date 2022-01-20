@@ -1,6 +1,7 @@
 ﻿namespace CarRentingSystem.Data
 {
     using CarRentingSystem.Data.Models;
+
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@
         public DbSet<Car> Cars => this.Set<Car>();
 
         public DbSet<Category> Categories => this.Set<Category>();
+
+        public DbSet<Dealer> Dealers => this.Set<Dealer>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

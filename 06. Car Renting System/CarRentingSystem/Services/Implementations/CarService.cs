@@ -7,9 +7,10 @@
 
     using CarRentingSystem.Data;
     using CarRentingSystem.Data.Models;
+    using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Models.Home;
-    using Infrastructure;
+
     using Microsoft.EntityFrameworkCore;
 
     public class CarService : ICarService
@@ -89,9 +90,10 @@
             string description,
             string imageUrl,
             int year,
-            int categoryId)
+            int categoryId,
+            int dealerId)
         {
-            var car = new Car(brand, model, description, imageUrl, year, categoryId);
+            var car = new Car(brand, model, description, imageUrl, year, categoryId, dealerId);
 
             await this.dbContext.AddAsync(car);
             await this.dbContext.SaveChangesAsync();

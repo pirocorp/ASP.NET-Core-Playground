@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#registerForm input,
+#account input,
+#profile-form input,
+#email-form input,
+#change-password-form input {
+    margin-bottom: 20px;
+}

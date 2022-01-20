@@ -13,15 +13,15 @@
         }
 
         [Required]
-        [StringLength(CarBrandMaxLength, MinimumLength = CarBrandMinLength)]
+        [StringLength(BrandMaxLength, MinimumLength = BrandMinLength)]
         public string? Brand { get; init; }
 
         [Required]
-        [StringLength(CarModelMaxLength, MinimumLength = CarModelMinLength)]
+        [StringLength(ModelMaxLength, MinimumLength = ModelMinLength)]
         public string? Model { get; init; }
 
         [Required]
-        [MinLength(CarDescriptionMinLength)]
+        [MinLength(DescriptionMinLength)]
         public string? Description { get; init; }
 
         [Required]
@@ -29,7 +29,7 @@
         [Url]
         public string? ImageUrl { get; init; }
 
-        [Range(CarYearMinValue, CarYearMaxValue)]
+        [Range(YearMinValue, YearMaxValue)]
         public int Year { get; init; }
 
         [Display(Name = "Category")]

@@ -20,6 +20,13 @@
 
         Task<int> TotalCars();
 
-        Task Add(string brand, string model, string description, string imageUrl, int year, int categoryId);
+        Task Add(
+            string brand,
+            string model,
+            string description,
+            string imageUrl,
+            int year,
+            int categoryId,
+            int dealerId);
     }
 }
