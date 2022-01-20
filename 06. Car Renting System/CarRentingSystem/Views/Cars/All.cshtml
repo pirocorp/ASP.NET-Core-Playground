@@ -1,8 +1,7 @@
-﻿@using CarRentingSystem.Infrastructure
-@model AllCarsQueryModel
+﻿@model AllCarsQueryModel
 
 @{
-    this.ViewData["Title"] = "All Cars";
+    this.ViewBag.Title = "All Cars";
 
     if (this.Model is null)
     {
@@ -10,7 +9,7 @@
     }
 
     var previousPage = Math.Max(1, this.Model.CurrentPage - 1);
-    var maxPage = (int)Math.Ceiling((double)this.Model.TotalCars / UIConstants.CarsPerPage);
+    var maxPage = Math.Max(1, (int)Math.Ceiling((double)this.Model.TotalCars / UIConstants.CarsPerPage));
     var nextPage = Math.Min(maxPage, this.Model.CurrentPage + 1);
 }
 
@@ -46,6 +45,11 @@
             </div>
         </form>
     </aside>
+    
+    @if (!this.Model.Cars.Any())
+    {
+        <h2 class="text-center">No cars found by the given criteria!</h2>
+    }
 
     <section class="row">
         @foreach (var car in this.Model.Cars)

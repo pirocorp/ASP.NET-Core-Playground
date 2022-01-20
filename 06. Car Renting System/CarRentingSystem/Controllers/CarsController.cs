@@ -3,33 +3,55 @@
     using System;
     using System.Threading.Tasks;
 
+    using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Services;
-    using Microsoft.AspNetCore.Identity;
+
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class CarsController : Controller
     {
         private readonly ICarService carService;
         private readonly ICategoryService categoryService;
+        private readonly IDealerService dealerService;
 
         public CarsController(
             ICarService carService,
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            IDealerService dealerService)
         {
             this.carService = carService;
             this.categoryService = categoryService;
+            this.dealerService = dealerService;
         }
 
-        public async Task<IActionResult> Add() => this.View(new AddCarFormModel
+        [Authorize]
+        public async Task<IActionResult> Add()
         {
-            Categories = await this.categoryService.GetCategories(),
-            Year = DateTime.UtcNow.Year,
-        });
+            if (!await this.dealerService.UserIsDealer(this.User.GetId()))
+            {
+                return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
 
+            return this.View(new AddCarFormModel
+            {
+                Categories = await this.categoryService.GetCategories(),
+                Year = DateTime.UtcNow.Year,
+            });
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(AddCarFormModel car)
         {
+            var dealerId = await this.dealerService.GetDealerId(this.User.GetId());
+
+            if (dealerId is 0)
+            {
+                return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
             if (!await this.categoryService.Exists(car.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(car.CategoryId), "Invalid Category");
@@ -40,8 +62,6 @@
                 car.Categories = await this.categoryService.GetCategories();
                 return this.View(car);
             }
-
-            var dealerId = car.CategoryId;
 
             await this.carService.Add(
                 car.Brand!,

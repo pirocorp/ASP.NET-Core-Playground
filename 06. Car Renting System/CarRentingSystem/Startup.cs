@@ -51,6 +51,7 @@
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IDealerService, DealerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
