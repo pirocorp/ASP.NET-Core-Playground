@@ -5,7 +5,7 @@
 
     using CarRentingSystem.Models;
     using CarRentingSystem.Models.Home;
-    using CarRentingSystem.Services;
+    using CarRentingSystem.Services.Cars;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +23,6 @@
             var viewModel = new IndexViewModel()
             {
                 Cars = await this.carService.GetLatest(3),
-                TotalCars = await this.carService.TotalCars(),
             };
 
             return this.View(viewModel);

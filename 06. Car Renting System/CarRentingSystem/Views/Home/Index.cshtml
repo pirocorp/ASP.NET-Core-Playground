@@ -58,20 +58,44 @@
     </button>
 </div>
 
-<div class="row align-items-md-stretch mt-5">
+<div class="row my-5">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="show-statistics-btn">Show Statistics</button>
+    </div>
+</div>
+
+<div class="row align-items-md-stretch mt-5 d-none" id="home-statistics">
     <div class="col-md-4">
-        <h2 class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
-            @this.Model.TotalCars Cars
+        <h2 id="total-cars" class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
         </h2>
     </div>
     <div class="col-md-4">
-        <h2 class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
-            @this.Model.TotalRents Rents
+        <h2 id="total-users" class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
         </h2>
     </div>
     <div class="col-md-4">
-        <h2 class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
-            @this.Model.TotalUsers Users
+        <h2 id="total-rents" class="h-100 p-5 text-white bg-dark border rounded-3 text-center">
         </h2>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $showStatisticsBtn = $('#show-statistics-btn');
+        $homeStatistics = $('#home-statistics');
+
+        $showStatisticsBtn.on('click', ev => {
+            $.get('/api/statistics', (data) => {
+                $('#total-cars').text(data.totalCars + " Cars");
+                $('#total-users').text(data.totalUsers + " Users");
+                $('#total-rents').text(data.totalRents + " Rents");
+
+                $showStatisticsBtn.hide();
+                $homeStatistics.removeClass('d-none');
+
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+            });
+        });
+    </script>
+}

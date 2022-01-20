@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using CarRentingSystem.Services.Models.Cars;
+
     public class AllCarsQueryModel
     {
         public AllCarsQueryModel()
         {
             this.Brands = new List<string>();
-            this.Cars = new List<CarListingViewModel>();
+            this.Cars = new List<CarServiceModel>();
             this.CurrentPage = 1;
         }
 
@@ -16,7 +18,7 @@
 
         public IEnumerable<string> Brands { get; set; }
 
-        public IEnumerable<CarListingViewModel> Cars { get; set; }
+        public IEnumerable<CarServiceModel> Cars { get; set; }
 
         public int CurrentPage { get; set; }
 

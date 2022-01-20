@@ -1,11 +1,13 @@
 ﻿namespace CarRentingSystem.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Services;
+    using CarRentingSystem.Services.Cars;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -77,11 +79,12 @@
 
         public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
         {
-            var (totalCars, carsInPage) = await this.carService.GetAll(query.Brand, query.SearchTerm, query.Sorting, query.CurrentPage);
+            var carsQueryResult = await this.carService
+                .GetCars(query.Brand, query.SearchTerm, query.Sorting, query.CurrentPage, UIConstants.CarsPerPage);
 
             query.Brands = await this.carService.GetBrands();
-            query.Cars = carsInPage;
-            query.TotalCars = totalCars;
+            query.Cars = carsQueryResult.Cars;
+            query.TotalCars = carsQueryResult.TotalCars;
 
             return this.View(query);
         }

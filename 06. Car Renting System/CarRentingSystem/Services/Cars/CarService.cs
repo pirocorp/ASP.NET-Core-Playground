@@ -1,4 +1,4 @@
-﻿namespace CarRentingSystem.Services.Implementations
+﻿namespace CarRentingSystem.Services.Cars
 {
     using System;
     using System.Collections.Generic;
@@ -7,9 +7,9 @@
 
     using CarRentingSystem.Data;
     using CarRentingSystem.Data.Models;
-    using CarRentingSystem.Infrastructure;
-    using CarRentingSystem.Models.Cars;
+    using CarRentingSystem.Models;
     using CarRentingSystem.Models.Home;
+    using CarRentingSystem.Services.Models.Cars;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -29,11 +29,12 @@
                 .Take(n)
                 .ToListAsync();
 
-        public async Task<(int Total, IEnumerable<CarListingViewModel> Cars)> GetAll(
+        public async Task<CarQueryServiceModel> GetCars(
             string? brand,
             string? searchTerm,
             CarSorting sorting,
-            int currentPage)
+            int currentPage,
+            int carsPerPage)
         {
             var carsQuery = this.dbContext.Cars.AsQueryable();
 
@@ -67,12 +68,20 @@
 
             var total = await carsQuery.CountAsync();
             var cars = await carsQuery
-                .Skip((currentPage - 1) * UIConstants.CarsPerPage)
-                .Take(UIConstants.CarsPerPage)
-                .Select(c => new CarListingViewModel(c.Id, c.Brand, c.Model, c.ImageUrl, c.Category.Name, c.Year))
+                .Skip((currentPage - 1) * carsPerPage)
+                .Take(carsPerPage)
+                .Select(c => new CarServiceModel(c.Id, c.Brand, c.Category.Name, c.Model, c.ImageUrl, c.Year))
                 .ToListAsync();
 
-            return (total, cars);
+            var result = new CarQueryServiceModel()
+            {
+                CurrentPage = currentPage,
+                CarsPerPage = carsPerPage,
+                TotalCars = total,
+                Cars = cars,
+            };
+
+            return result;
         }
 
         public async Task<IEnumerable<string>> GetBrands()
@@ -81,8 +90,6 @@
                 .Distinct()
                 .OrderBy(c => c)
                 .ToListAsync();
-
-        public async Task<int> TotalCars() => await this.dbContext.Cars.CountAsync();
 
         public async Task Add(
             string brand,

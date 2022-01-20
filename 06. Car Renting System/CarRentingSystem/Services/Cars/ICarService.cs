@@ -1,24 +1,25 @@
-﻿namespace CarRentingSystem.Services
+﻿namespace CarRentingSystem.Services.Cars
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using CarRentingSystem.Models;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Models.Home;
+    using Models.Cars;
 
     public interface ICarService
     {
         Task<IEnumerable<CarIndexViewModel>> GetLatest(int n);
 
-        Task<(int Total, IEnumerable<CarListingViewModel> Cars)> GetAll(
+        Task<CarQueryServiceModel> GetCars(
             string? brand,
             string? searchTerm,
             CarSorting sorting,
-            int currentPage);
+            int currentPage,
+            int carsPerPage);
 
         Task<IEnumerable<string>> GetBrands();
-
-        Task<int> TotalCars();
 
         Task Add(
             string brand,

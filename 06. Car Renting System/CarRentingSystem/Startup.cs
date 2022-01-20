@@ -3,7 +3,9 @@
     using CarRentingSystem.Data;
     using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Services;
+    using CarRentingSystem.Services.Cars;
     using CarRentingSystem.Services.Implementations;
+    using CarRentingSystem.Services.Statistics;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -52,6 +54,7 @@
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IDealerService, DealerService>();
+            services.AddTransient<IStatisticsService, StatisticsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
