@@ -1,34 +1,30 @@
 ﻿namespace CarRentingSystem.Controllers
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Cars;
-    using CarRentingSystem.Services;
     using CarRentingSystem.Services.Cars;
+    using CarRentingSystem.Services.Dealers;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class CarsController : Controller
     {
         private readonly ICarService carService;
-        private readonly ICategoryService categoryService;
         private readonly IDealerService dealerService;
 
         public CarsController(
             ICarService carService,
-            ICategoryService categoryService,
             IDealerService dealerService)
         {
             this.carService = carService;
-            this.categoryService = categoryService;
             this.dealerService = dealerService;
         }
 
-        [Authorize]
         public async Task<IActionResult> Add()
         {
             if (!await this.dealerService.UserIsDealer(this.User.GetId()))
@@ -36,16 +32,15 @@
                 return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            return this.View(new AddCarFormModel
+            return this.View(new CarFormModel
             {
-                Categories = await this.categoryService.GetCategories(),
+                Categories = await this.carService.GetCategories(),
                 Year = DateTime.UtcNow.Year,
             });
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add(AddCarFormModel car)
+        public async Task<IActionResult> Add(CarFormModel car)
         {
             var dealerId = await this.dealerService.GetDealerId(this.User.GetId());
 
@@ -54,18 +49,19 @@
                 return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            if (!await this.categoryService.Exists(car.CategoryId))
+            if (!await this.carService.CategoryExists(car.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(car.CategoryId), "Invalid Category");
             }
 
             if (!this.ModelState.IsValid)
             {
-                car.Categories = await this.categoryService.GetCategories();
+                car.Categories = await this.carService.GetCategories();
+
                 return this.View(car);
             }
 
-            await this.carService.Add(
+            await this.carService.CreateCar(
                 car.Brand!,
                 car.Model!,
                 car.Description!,
@@ -77,6 +73,88 @@
             return this.RedirectToAction(nameof(this.All));
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userId = this.User.GetId();
+
+            if (!await this.dealerService.UserIsDealer(userId))
+            {
+                return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
+            var car = await this.carService.GetCarDetails(id);
+
+            if (car is null)
+            {
+                return this.BadRequest();
+            }
+
+            if (car.UserId != userId)
+            {
+                return this.Unauthorized();
+            }
+
+            var carModel = new CarFormModel
+            {
+                Brand = car.Brand,
+                Model = car.Model,
+                Description = car.Description,
+                ImageUrl = car.ImageUrl,
+                Year = car.Year,
+                CategoryId = car.CategoryId,
+                Categories = await this.carService.GetCategories(),
+            };
+
+            return this.View(carModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, CarFormModel car)
+        {
+            var dealerId = await this.dealerService.GetDealerId(this.User.GetId());
+
+            if (dealerId is 0)
+            {
+                return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
+            if (!await this.carService.CategoryExists(car.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(car.CategoryId), "Invalid Category");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                car.Categories = await this.carService.GetCategories();
+
+                return this.View(car);
+            }
+
+            if (!await this.carService.CarIsOwnedByDealer(id, dealerId))
+            {
+                return this.BadRequest();
+            }
+
+            await this.carService.EditCar(
+                id,
+                car.Brand!,
+                car.Model!,
+                car.Description!,
+                car.ImageUrl!,
+                car.Year,
+                car.CategoryId);
+
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<IActionResult> MyCars()
+        {
+            var userCars = await this.carService.GetUserCars(this.User.GetId());
+
+            return this.View(userCars);
+        }
+
+        [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
         {
             var carsQueryResult = await this.carService

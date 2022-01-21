@@ -1,4 +1,4 @@
-﻿namespace CarRentingSystem.Services.Implementations
+﻿namespace CarRentingSystem.Services.Dealers
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -26,12 +26,14 @@
                 .Select(d => d.Id)
                 .FirstOrDefaultAsync();
 
-        public async Task Add(string name, string phoneNumber, string userId)
+        public async Task<int> CreateDealer(string name, string phoneNumber, string userId)
         {
             var dealer = new Dealer(name, phoneNumber, userId);
 
             await this.dbContext.AddAsync(dealer);
             await this.dbContext.SaveChangesAsync();
+
+            return dealer.Id;
         }
     }
 }

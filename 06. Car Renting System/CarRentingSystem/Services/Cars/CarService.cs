@@ -22,7 +22,27 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<CarIndexViewModel>> GetLatest(int n)
+        public async Task<bool> CarIsOwnedByDealer(int carId, int dealerId)
+            => await this.dbContext.Cars.AnyAsync(c => c.Id == carId && c.DealerId == dealerId);
+
+        public async Task<CarDetailsServiceModel?> GetCarDetails(int carId)
+            => await this.dbContext.Cars
+                .Where(c => c.Id == carId)
+                .Select(c => new CarDetailsServiceModel(
+                    c.Id,
+                    c.Brand,
+                    c.CategoryId,
+                    c.Category.Name,
+                    c.Model,
+                    c.ImageUrl,
+                    c.Year,
+                    c.DealerId,
+                    c.Dealer.Name,
+                    c.Description,
+                    c.Dealer.UserId))
+                .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<CarIndexViewModel>> GetLatestCars(int n)
             => await this.dbContext.Cars
                 .OrderByDescending(c => c.Id)
                 .Select(c => new CarIndexViewModel(c.Id, c.Brand, c.Model, c.ImageUrl, c.Year))
@@ -67,11 +87,12 @@
             };
 
             var total = await carsQuery.CountAsync();
-            var cars = await carsQuery
+
+            carsQuery = carsQuery
                 .Skip((currentPage - 1) * carsPerPage)
-                .Take(carsPerPage)
-                .Select(c => new CarServiceModel(c.Id, c.Brand, c.Category.Name, c.Model, c.ImageUrl, c.Year))
-                .ToListAsync();
+                .Take(carsPerPage);
+
+            var cars = await GetCars(carsQuery);
 
             var result = new CarQueryServiceModel()
             {
@@ -84,6 +105,10 @@
             return result;
         }
 
+        public async Task<IEnumerable<CarServiceModel>> GetUserCars(string userId)
+            => await GetCars(this.dbContext.Cars
+                .Where(c => c.Dealer.UserId == userId));
+
         public async Task<IEnumerable<string>> GetBrands()
             => await this.dbContext.Cars
                 .Select(c => c.Brand)
@@ -91,7 +116,18 @@
                 .OrderBy(c => c)
                 .ToListAsync();
 
-        public async Task Add(
+        public async Task<IEnumerable<CarCategoryServiceModel>> GetCategories()
+            => await this.dbContext.Categories.Select(c => new CarCategoryServiceModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToListAsync();
+
+        public async Task<bool> CategoryExists(int categoryId)
+            => await this.dbContext.Categories.AnyAsync(c => c.Id == categoryId);
+
+        public async Task<int> CreateCar(
             string brand,
             string model,
             string description,
@@ -104,6 +140,47 @@
 
             await this.dbContext.AddAsync(car);
             await this.dbContext.SaveChangesAsync();
+
+            return car.Id;
         }
+
+        public async Task<bool> EditCar(
+            int carId,
+            string brand,
+            string model,
+            string description,
+            string imageUrl,
+            int year,
+            int categoryId)
+        {
+            var carData = await this.dbContext.Cars.FindAsync(carId);
+
+            if (carData is null)
+            {
+                return false;
+            }
+
+            carData.Brand = brand;
+            carData.Model = model;
+            carData.Description = description;
+            carData.ImageUrl = imageUrl;
+            carData.Year = year;
+            carData.CategoryId = categoryId;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        private static async Task<IEnumerable<CarServiceModel>> GetCars(IQueryable<Car> carsQuery)
+            => await carsQuery
+                .Select(c => new CarServiceModel(
+                    c.Id,
+                    c.Brand,
+                    c.Category.Name,
+                    c.Model,
+                    c.ImageUrl,
+                    c.Year))
+                .ToListAsync();
     }
 }

@@ -3,13 +3,15 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using CarRentingSystem.Services.Models.Cars;
+
     using static CarRentingSystem.Data.DataConstants.Car;
 
-    public class AddCarFormModel
+    public class CarFormModel
     {
-        public AddCarFormModel()
+        public CarFormModel()
         {
-            this.Categories = new List<CarCategoryViewModel>();
+            this.Categories = new List<CarCategoryServiceModel>();
         }
 
         [Required]
@@ -35,6 +37,6 @@
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 
-        public IEnumerable<CarCategoryViewModel> Categories { get; set; }
+        public IEnumerable<CarCategoryServiceModel> Categories { get; set; }
     }
 }

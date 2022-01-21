@@ -1,8 +1,8 @@
-﻿namespace CarRentingSystem.Models.Cars
+﻿namespace CarRentingSystem.Services.Models.Cars
 {
     using CarRentingSystem.Infrastructure.Exceptions;
 
-    public class CarCategoryViewModel
+    public class CarCategoryServiceModel
     {
         private string? name;
 

@@ -51,21 +51,7 @@
         <h2 class="text-center">No cars found by the given criteria!</h2>
     }
 
-    <section class="row">
-        @foreach (var car in this.Model.Cars)
-        {
-            <article class="d-flex col-md-4 mb-5">
-                <div class="align-self-stretch card">
-                    <img src=@car.ImageUrl class="card-img-top" alt="@car.Brand @car.Model - @car.Year (@car.Category)">
-                    <div class="flex-grow-1 flex-shrink-1"></div>
-                    <div class="flex-grow-0 card-body text-center">
-                        <h5 class="card-title text-center">@car.Brand @car.Model (@car.Year)</h5>
-                        <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">View More</a>
-                    </div>
-                </div>
-            </article>
-        }
-    </section>
+    <partial name="_CarsPartial" model="this.Model.Cars"/>
     
     <section class="row">
         <div class="col-md-6 d-flex justify-content-start">

@@ -22,7 +22,7 @@
         {
             var viewModel = new IndexViewModel()
             {
-                Cars = await this.carService.GetLatest(3),
+                Cars = await this.carService.GetLatestCars(3),
             };
 
             return this.View(viewModel);

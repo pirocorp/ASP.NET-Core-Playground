@@ -4,7 +4,7 @@
 
     using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Dealers;
-    using CarRentingSystem.Services;
+    using CarRentingSystem.Services.Dealers;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,7 @@
                 return this.View(dealer);
             }
 
-            await this.dealerService.Add(dealer.Name!, dealer.PhoneNumber!, userId);
+            await this.dealerService.CreateDealer(dealer.Name!, dealer.PhoneNumber!, userId);
 
             return this.RedirectToAction(nameof(CarsController.All), "Cars");
         }
