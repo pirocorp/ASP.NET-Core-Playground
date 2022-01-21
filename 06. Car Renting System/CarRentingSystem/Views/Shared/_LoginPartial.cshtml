@@ -1,8 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using CarRentingSystem.Services.Dealers
+﻿@using CarRentingSystem.Data.Models
+@using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IDealerService DealerService
 
 @{

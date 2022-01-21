@@ -25,7 +25,7 @@
                 <label asp-for="Brand" class="form-label"></label>
                 <select
                     asp-for="Brand"
-                    asp-items="@this.Model.Brands.Select(b => new SelectListItem(b, b))"
+                    asp-items="@(this.Model.Brands.Select(b => new SelectListItem(b, b)))"
                     class="form-select">
                     <option value="" selected="">All</option>
                 </select>
@@ -60,8 +60,8 @@
                 asp-controller="Cars" 
                 asp-action="All" 
                 asp-route-currentPage="@previousPage"
-                asp-route-brand="@this.Model.Brand"
-                asp-route-searchTerm="@this.Model.SearchTerm"
+                asp-route-brand="@(this.Model.Brand)"
+                asp-route-searchTerm="@(this.Model.SearchTerm)"
                 asp-route-sorting="@((int)this.Model.Sorting)"><<</a>
         </div>
         <div class="col-md-6 d-flex justify-content-end">
@@ -70,8 +70,8 @@
                 asp-controller="Cars" 
                 asp-action="All" 
                 asp-route-currentPage="@nextPage"
-                asp-route-brand="@this.Model.Brand"
-                asp-route-searchTerm="@this.Model.SearchTerm"
+                asp-route-brand="@(this.Model.Brand)"
+                asp-route-searchTerm="@(this.Model.SearchTerm)"
                 asp-route-sorting="@((int)this.Model.Sorting)">>></a>
         </div>
     </section>

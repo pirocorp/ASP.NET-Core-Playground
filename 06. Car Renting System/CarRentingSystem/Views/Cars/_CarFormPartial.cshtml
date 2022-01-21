@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-6 col-lg-8 col-md-10">
-            <h2 class="mt-2 mb-4 text-center">@this.ViewBag.Title</h2>
+            <h2 class="mt-2 mb-4 text-center">@(this.ViewBag.Title)</h2>
             <form method="post">
                 <div class="form-floating mb-3">
                     <input is-valid="@nameof(this.Model.Brand)" class="form-control" asp-for="Brand" required="required">
@@ -41,7 +41,7 @@
                         class="form-select"
                         is-valid="@nameof(this.Model.CategoryId)"
                         asp-for="CategoryId"
-                        asp-items="@this.Model.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()))"
+                        asp-items="@(this.Model.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString())))"
                     ></select>
                     <label asp-for="CategoryId">Open this select menu</label>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>

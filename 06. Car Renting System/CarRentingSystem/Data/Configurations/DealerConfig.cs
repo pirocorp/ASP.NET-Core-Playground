@@ -29,7 +29,7 @@
 
             // One to one relation and dependent entity is dealer.
             dealer
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Dealer>(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
