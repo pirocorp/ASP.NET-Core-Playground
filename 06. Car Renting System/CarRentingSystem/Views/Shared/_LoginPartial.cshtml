@@ -6,19 +6,20 @@
 @inject IDealerService DealerService
 
 @{
-    var userIsDealer = await this.DealerService.UserIsDealer(this.User.GetId());
+    var userId = this.User.GetId();
+    var userIsDealer = await this.DealerService.UserIsDealer(userId);
 }
 
 <ul class="navbar-nav">
 @if (this.SignInManager.IsSignedIn(this.User))
 {
-    @if (userIsDealer)
+    @if (userIsDealer && !this.User.IsAdmin())
     {
         <li class="nav-item">
             <a  class="nav-link text-white" asp-area="" asp-controller="Cars" asp-action="MyCars">My Cars</a>
         </li>
     }
-    else
+    else if(!this.User.IsAdmin())
     {
         <li class="nav-item">
             <a  class="nav-link text-white" asp-area="" asp-controller="Dealers" asp-action="Create">Become Dealer</a>

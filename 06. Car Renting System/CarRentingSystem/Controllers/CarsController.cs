@@ -77,7 +77,7 @@
         {
             var userId = this.User.GetId();
 
-            if (!await this.dealerService.UserIsDealer(userId))
+            if (!await this.dealerService.UserIsDealer(userId) && !this.User.IsAdmin())
             {
                 return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
@@ -89,7 +89,7 @@
                 return this.BadRequest();
             }
 
-            if (car.UserId != userId)
+            if (car.UserId != userId && !this.User.IsAdmin())
             {
                 return this.Unauthorized();
             }
@@ -113,7 +113,7 @@
         {
             var dealerId = await this.dealerService.GetDealerId(this.User.GetId());
 
-            if (dealerId is 0)
+            if (dealerId is 0 && !this.User.IsAdmin())
             {
                 return this.RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
@@ -130,7 +130,7 @@
                 return this.View(car);
             }
 
-            if (!await this.carService.CarIsOwnedByDealer(id, dealerId))
+            if (!await this.carService.CarIsOwnedByDealer(id, dealerId) && !this.User.IsAdmin())
             {
                 return this.BadRequest();
             }

@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<CarServiceModel>
 
+@using static CarRentingSystem.WebConstants
+
 @{
     var cars = this.Model?.ToList() ?? new List<CarServiceModel>();
 }
@@ -14,7 +16,7 @@
                 <div class="flex-grow-0 card-body text-center">
                     <h5 class="card-title text-center">@car.Brand @car.Model (@car.Year)</h5>
                     <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">Details</a>
-                    @if (this.ViewBag.AllowCarEdit is true)
+                    @if (this.ViewBag.AllowCarEdit is true || this.User.IsAdmin())
                     {
                         <a asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning">Edit</a>
                         <a asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</a>

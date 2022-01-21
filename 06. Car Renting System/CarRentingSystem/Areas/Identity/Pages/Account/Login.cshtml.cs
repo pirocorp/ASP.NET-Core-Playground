@@ -66,7 +66,11 @@ namespace CarRentingSystem.Areas.Identity.Pages.Account
 
             if (this.ModelState.IsValid)
             {
-                var result = await this.signInManager.PasswordSignInAsync(this.Input.Email, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false); 
+                var result = await this.signInManager.PasswordSignInAsync(
+                        this.Input.Email,
+                        this.Input.Password,
+                        this.Input.RememberMe,
+                        lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
