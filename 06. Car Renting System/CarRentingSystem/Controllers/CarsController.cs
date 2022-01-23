@@ -11,6 +11,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using static WebConstants;
+
     [Authorize]
     public class CarsController : Controller
     {
@@ -158,7 +160,12 @@
         public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
         {
             var carsQueryResult = await this.carService
-                .GetCars(query.Brand, query.SearchTerm, query.Sorting, query.CurrentPage, UIConstants.CarsPerPage);
+                .GetCars(
+                    query.Brand,
+                    query.SearchTerm,
+                    query.Sorting,
+                    query.CurrentPage,
+                    CarsPerPage);
 
             query.Brands = await this.carService.GetBrands();
             query.Cars = carsQueryResult.Cars;

@@ -85,6 +85,11 @@
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapControllerRoute(
+                        name: "area",
+                        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                    // {controller=Home}/{action=Index}/{id?}
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });

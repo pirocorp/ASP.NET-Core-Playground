@@ -1,5 +1,7 @@
 ﻿@model AllCarsQueryModel
 
+@using static CarRentingSystem.WebConstants
+
 @{
     this.ViewBag.Title = "All Cars";
 
@@ -9,7 +11,7 @@
     }
 
     var previousPage = Math.Max(1, this.Model.CurrentPage - 1);
-    var maxPage = Math.Max(1, (int)Math.Ceiling((double)this.Model.TotalCars / UIConstants.CarsPerPage));
+    var maxPage = Math.Max(1, (int)Math.Ceiling((double)this.Model.TotalCars / CarsPerPage));
     var nextPage = Math.Min(maxPage, this.Model.CurrentPage + 1);
 }
 

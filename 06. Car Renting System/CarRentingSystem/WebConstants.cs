@@ -1,7 +1,7 @@
 ﻿namespace CarRentingSystem
 {
-    public class WebConstants
+    public static class WebConstants
     {
-        public const string AdministratorRoleName = "Admin";
+        public const int CarsPerPage = 3;
     }
 }
