@@ -5,6 +5,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using CarRentingSystem.Data;
     using CarRentingSystem.Data.Models;
     using CarRentingSystem.Models;
@@ -16,10 +19,14 @@
     public class CarService : ICarService
     {
         private readonly CarRentingDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public CarService(CarRentingDbContext dbContext)
+        public CarService(
+            CarRentingDbContext dbContext,
+            IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<bool> CarIsOwnedByDealer(int carId, int dealerId)
@@ -28,24 +35,13 @@
         public async Task<CarDetailsServiceModel?> GetCarDetails(int carId)
             => await this.dbContext.Cars
                 .Where(c => c.Id == carId)
-                .Select(c => new CarDetailsServiceModel(
-                    c.Id,
-                    c.Brand,
-                    c.CategoryId,
-                    c.Category.Name,
-                    c.Model,
-                    c.ImageUrl,
-                    c.Year,
-                    c.DealerId,
-                    c.Dealer.Name,
-                    c.Description,
-                    c.Dealer.UserId))
+                .ProjectTo<CarDetailsServiceModel>(this.mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<CarIndexViewModel>> GetLatestCars(int n)
             => await this.dbContext.Cars
                 .OrderByDescending(c => c.Id)
-                .Select(c => new CarIndexViewModel(c.Id, c.Brand, c.Model, c.ImageUrl, c.Year))
+                .ProjectTo<CarIndexViewModel>(this.mapper.ConfigurationProvider)
                 .Take(n)
                 .ToListAsync();
 

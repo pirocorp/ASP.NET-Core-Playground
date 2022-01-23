@@ -3,6 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
+    using AutoMapper;
+
     using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Services.Cars;
@@ -18,13 +20,16 @@
     {
         private readonly ICarService carService;
         private readonly IDealerService dealerService;
+        private readonly IMapper mapper;
 
         public CarsController(
             ICarService carService,
-            IDealerService dealerService)
+            IDealerService dealerService,
+            IMapper mapper)
         {
             this.carService = carService;
             this.dealerService = dealerService;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Add()
@@ -96,18 +101,10 @@
                 return this.Unauthorized();
             }
 
-            var carModel = new CarFormModel
-            {
-                Brand = car.Brand,
-                Model = car.Model,
-                Description = car.Description,
-                ImageUrl = car.ImageUrl,
-                Year = car.Year,
-                CategoryId = car.CategoryId,
-                Categories = await this.carService.GetCategories(),
-            };
+            var carForm = this.mapper.Map<CarFormModel>(car);
+            carForm.Categories = await this.carService.GetCategories();
 
-            return this.View(carModel);
+            return this.View(carForm);
         }
 
         [HttpPost]

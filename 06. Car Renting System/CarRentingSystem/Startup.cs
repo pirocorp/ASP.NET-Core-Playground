@@ -54,6 +54,7 @@
                 })
                 .AddRazorRuntimeCompilation();
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddLowercaseRouting();
 
             services.AddTransient<ICarService, CarService>();
