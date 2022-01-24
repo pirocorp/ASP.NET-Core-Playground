@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using CarRentingSystem.Models;
-    using CarRentingSystem.Models.Home;
     using CarRentingSystem.Services.Models.Cars;
 
     public interface ICarService
@@ -13,7 +12,7 @@
 
         Task<CarDetailsServiceModel?> GetCarDetails(int carId);
 
-        Task<IEnumerable<CarIndexViewModel>> GetLatestCars(int n);
+        Task<IEnumerable<CarLatestServiceModel>> GetLatestCars(int n);
 
         Task<CarQueryServiceModel> GetCars(
             string? brand,

@@ -162,7 +162,7 @@
                     query.SearchTerm,
                     query.Sorting,
                     query.CurrentPage,
-                    CarsPerPage);
+                    CarsPageSize);
 
             query.Brands = await this.carService.GetBrands();
             query.Cars = carsQueryResult.Cars;

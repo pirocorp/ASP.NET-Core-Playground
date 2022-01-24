@@ -6,7 +6,7 @@
     <UserSecretsId>aspnet-CarRentingSystem-D7D39C99-CCBB-463A-A6F7-CC413E489F6A</UserSecretsId>
   </PropertyGroup>
   
-      <PropertyGroup>
+  <PropertyGroup>
     <CodeAnalysisRuleSet>..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

@@ -2,6 +2,8 @@
 {
     public static class WebConstants
     {
-        public const int CarsPerPage = 3;
+        public const int CarsPageSize = 3;
+
+        public const int CarouselSize = 3;
     }
 }

@@ -7,12 +7,12 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]")]
-    public class StatisticsController : ControllerBase
+    [Route("api/statistics")]
+    public class StatisticsApiController : ControllerBase
     {
         private readonly IStatisticsService statisticsService;
 
-        public StatisticsController(IStatisticsService statisticsService)
+        public StatisticsApiController(IStatisticsService statisticsService)
         {
             this.statisticsService = statisticsService;
         }

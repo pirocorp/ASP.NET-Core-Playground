@@ -11,7 +11,6 @@
     using CarRentingSystem.Data;
     using CarRentingSystem.Data.Models;
     using CarRentingSystem.Models;
-    using CarRentingSystem.Models.Home;
     using CarRentingSystem.Services.Models.Cars;
 
     using Microsoft.EntityFrameworkCore;
@@ -38,10 +37,10 @@
                 .ProjectTo<CarDetailsServiceModel>(this.mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<CarIndexViewModel>> GetLatestCars(int n)
+        public async Task<IEnumerable<CarLatestServiceModel>> GetLatestCars(int n)
             => await this.dbContext.Cars
                 .OrderByDescending(c => c.Id)
-                .ProjectTo<CarIndexViewModel>(this.mapper.ConfigurationProvider)
+                .ProjectTo<CarLatestServiceModel>(this.mapper.ConfigurationProvider)
                 .Take(n)
                 .ToListAsync();
 

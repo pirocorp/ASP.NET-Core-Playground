@@ -2,13 +2,15 @@
 {
     using System.Collections.Generic;
 
+    using CarRentingSystem.Services.Models.Cars;
+
     public class IndexViewModel
     {
         public IndexViewModel()
         {
-            this.Cars = new List<CarIndexViewModel>();
+            this.Cars = new List<CarLatestServiceModel>();
         }
 
-        public IEnumerable<CarIndexViewModel> Cars { get; set; }
+        public IEnumerable<CarLatestServiceModel> Cars { get; set; }
     }
 }

@@ -11,7 +11,7 @@
     {
         public MappingProfile()
         {
-            this.CreateMap<Car, CarIndexViewModel>();
+            this.CreateMap<Car, CarLatestServiceModel>();
             this.CreateMap<CarDetailsServiceModel, CarFormModel>();
 
             this

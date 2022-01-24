@@ -1,8 +1,8 @@
-﻿namespace CarRentingSystem.Models.Home
+﻿namespace CarRentingSystem.Services.Models.Cars
 {
-    public class CarIndexViewModel
+    public class CarLatestServiceModel
     {
-        public CarIndexViewModel(int id, string brand, string model, string imageUrl, int year)
+        public CarLatestServiceModel(int id, string brand, string model, string imageUrl, int year)
         {
             this.Id = id;
             this.Brand = brand;
