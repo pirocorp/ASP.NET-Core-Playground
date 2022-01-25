@@ -1,12 +1,10 @@
 ﻿namespace CarRentingSystem.Tests.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using CarRentingSystem.Controllers;
     using CarRentingSystem.Data.Models;
-    using CarRentingSystem.Models.Home;
     using CarRentingSystem.Services.Cars;
     using CarRentingSystem.Tests.Mocks;
 

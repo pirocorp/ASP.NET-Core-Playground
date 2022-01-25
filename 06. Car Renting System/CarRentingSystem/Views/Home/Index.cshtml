@@ -1,14 +1,14 @@
-﻿@model IndexViewModel
+﻿@model IEnumerable<CarLatestServiceModel>
 
 @{
     this.ViewBag.Title = "Welcome!";
 
     if (this.Model is null)
     {
-        throw new NullViewModelException(typeof(IndexViewModel).FullName!);
+        throw new NullViewModelException(typeof(IEnumerable<CarLatestServiceModel>).FullName!);
     }
 
-    var cars = this.Model.Cars.ToList();
+    var cars = this.Model.ToList();
 }
 
 @if (!cars.Any())
