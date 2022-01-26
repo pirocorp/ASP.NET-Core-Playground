@@ -20,6 +20,7 @@
             this.Model = model;
             this.Description = description;
             this.ImageUrl = imageUrl;
+            this.IsPublic = false;
             this.Year = year;
             this.CategoryId = categoryId;
             this.DealerId = dealerId;
@@ -34,6 +35,8 @@
         public string Description { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public bool IsPublic { get; set; }
 
         public int Year { get; set; }
 

@@ -5,7 +5,7 @@
 
     using AutoMapper;
 
-    using CarRentingSystem.Infrastructure;
+    using CarRentingSystem.Infrastructure.Extensions;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Services.Cars;
     using CarRentingSystem.Services.Dealers;
@@ -68,7 +68,7 @@
                 return this.View(car);
             }
 
-            await this.carService.CreateCar(
+            var carId = await this.carService.CreateCar(
                 car.Brand!,
                 car.Model!,
                 car.Description!,
@@ -77,7 +77,9 @@
                 car.CategoryId,
                 dealerId);
 
-            return this.RedirectToAction(nameof(this.All));
+            this.TempData[GlobalMessageKey] = "Your car was added and is awaiting for approval.";
+
+            return this.RedirectToAction(nameof(this.Details), new { id = carId, information = car.ToFriendlyUrl() });
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -141,9 +143,24 @@
                 car.Description!,
                 car.ImageUrl!,
                 car.Year,
-                car.CategoryId);
+                car.CategoryId,
+                this.User.IsAdmin());
 
-            return this.RedirectToAction(nameof(this.All));
+            this.TempData[GlobalMessageKey] = $"The car was edited{(this.User.IsAdmin() ? string.Empty : " and is awaiting for approval")}.";
+
+            return this.RedirectToAction(nameof(this.Details), new { id, information = car.ToFriendlyUrl() });
+        }
+
+        public async Task<IActionResult> Details(int id, string information)
+        {
+            var car = await this.carService.GetCarDetails(id);
+
+            if (car is null || information != car.ToFriendlyUrl().ToLower())
+            {
+                return this.BadRequest();
+            }
+
+            return this.View(car);
         }
 
         public async Task<IActionResult> MyCars()

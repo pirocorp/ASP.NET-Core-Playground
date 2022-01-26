@@ -35,6 +35,12 @@
         </nav>
     </header>
     <div class="container">
+        @if (this.TempData.ContainsKey(GlobalMessageKey))
+        {
+            <div class="alert alert-success" role="alert">
+                @this.TempData[GlobalMessageKey]
+            </div>
+        }
         <main role="main" class="pb-3">
             @(this.RenderBody())
         </main>

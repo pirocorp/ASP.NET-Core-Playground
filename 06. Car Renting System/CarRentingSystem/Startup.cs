@@ -2,7 +2,7 @@
 {
     using CarRentingSystem.Data;
     using CarRentingSystem.Data.Models;
-    using CarRentingSystem.Infrastructure;
+    using CarRentingSystem.Infrastructure.Extensions;
     using CarRentingSystem.Services.Cars;
     using CarRentingSystem.Services.Dealers;
     using CarRentingSystem.Services.Statistics;
@@ -88,6 +88,10 @@
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapDefaultAreaRoute();
+                    endpoints.MapControllerRoute(
+                        name: "Car Details",
+                        pattern: "/Cars/Details/{id}/{information}",
+                        defaults: new { controller = "Cars", action = "Details" });
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });

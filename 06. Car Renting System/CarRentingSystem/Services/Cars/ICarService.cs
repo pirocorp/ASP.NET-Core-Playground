@@ -15,11 +15,12 @@
         Task<IEnumerable<CarLatestServiceModel>> GetLatestCars(int n);
 
         Task<CarQueryServiceModel> GetCars(
-            string? brand,
-            string? searchTerm,
-            CarSorting sorting,
-            int currentPage,
-            int carsPerPage);
+            string? brand = null,
+            string? searchTerm = null,
+            CarSorting sorting = CarSorting.DateCreated,
+            int currentPage = 1,
+            int carsPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         Task<IEnumerable<CarServiceModel>> GetUserCars(string userId);
 
@@ -38,6 +39,8 @@
             int categoryId,
             int dealerId);
 
+        Task ChangeCarVisibility(int carId);
+
         Task<bool> EditCar(
             int carId,
             string brand,
@@ -45,6 +48,7 @@
             string description,
             string imageUrl,
             int year,
-            int categoryId);
+            int categoryId,
+            bool isPublic);
     }
 }

@@ -39,19 +39,22 @@
 
         public async Task<IEnumerable<CarLatestServiceModel>> GetLatestCars(int n)
             => await this.dbContext.Cars
+                .Where(c => c.IsPublic)
                 .OrderByDescending(c => c.Id)
                 .ProjectTo<CarLatestServiceModel>(this.mapper.ConfigurationProvider)
                 .Take(n)
                 .ToListAsync();
 
         public async Task<CarQueryServiceModel> GetCars(
-            string? brand,
-            string? searchTerm,
-            CarSorting sorting,
-            int currentPage,
-            int carsPerPage)
+            string? brand = null,
+            string? searchTerm = null,
+            CarSorting sorting = CarSorting.DateCreated,
+            int currentPage = 1,
+            int carsPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
-            var carsQuery = this.dbContext.Cars.AsQueryable();
+            var carsQuery = this.dbContext.Cars
+                .Where(c => !publicOnly || c.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(brand))
             {
@@ -87,7 +90,7 @@
                 .Skip((currentPage - 1) * carsPerPage)
                 .Take(carsPerPage);
 
-            var cars = await GetCars(carsQuery);
+            var cars = await this.GetCars(carsQuery);
 
             var result = new CarQueryServiceModel()
             {
@@ -101,7 +104,7 @@
         }
 
         public async Task<IEnumerable<CarServiceModel>> GetUserCars(string userId)
-            => await GetCars(this.dbContext.Cars
+            => await this.GetCars(this.dbContext.Cars
                 .Where(c => c.Dealer.UserId == userId));
 
         public async Task<IEnumerable<string>> GetBrands()
@@ -112,11 +115,8 @@
                 .ToListAsync();
 
         public async Task<IEnumerable<CarCategoryServiceModel>> GetCategories()
-            => await this.dbContext.Categories.Select(c => new CarCategoryServiceModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                })
+            => await this.dbContext.Categories
+                .ProjectTo<CarCategoryServiceModel>(this.mapper.ConfigurationProvider)
                 .ToListAsync();
 
         public async Task<bool> CategoryExists(int categoryId)
@@ -139,6 +139,17 @@
             return car.Id;
         }
 
+        public async Task ChangeCarVisibility(int carId)
+        {
+            var car = await this.dbContext.Cars.FindAsync(carId);
+
+            car!.IsPublic = !car.IsPublic;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return;
+        }
+
         public async Task<bool> EditCar(
             int carId,
             string brand,
@@ -146,7 +157,8 @@
             string description,
             string imageUrl,
             int year,
-            int categoryId)
+            int categoryId,
+            bool isPublic)
         {
             var carData = await this.dbContext.Cars.FindAsync(carId);
 
@@ -161,21 +173,16 @@
             carData.ImageUrl = imageUrl;
             carData.Year = year;
             carData.CategoryId = categoryId;
+            carData.IsPublic = isPublic;
 
             await this.dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        private static async Task<IEnumerable<CarServiceModel>> GetCars(IQueryable<Car> carsQuery)
+        private async Task<IEnumerable<CarServiceModel>> GetCars(IQueryable carsQuery)
             => await carsQuery
-                .Select(c => new CarServiceModel(
-                    c.Id,
-                    c.Brand,
-                    c.Category.Name,
-                    c.Model,
-                    c.ImageUrl,
-                    c.Year))
+                .ProjectTo<CarServiceModel>(this.mapper.ConfigurationProvider)
                 .ToListAsync();
     }
 }

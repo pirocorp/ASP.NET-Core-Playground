@@ -1,26 +1,31 @@
 ﻿namespace CarRentingSystem.Models.Cars
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using CarRentingSystem.Infrastructure.Exceptions;
     using CarRentingSystem.Services.Models.Cars;
 
     using static CarRentingSystem.Data.DataConstants.Car;
 
-    public class CarFormModel
+    public class CarFormModel : ICarModel
     {
         public CarFormModel()
         {
+            this.Brand = string.Empty;
+            this.Model = string.Empty;
+
             this.Categories = new List<CarCategoryServiceModel>();
         }
 
         [Required]
         [StringLength(BrandMaxLength, MinimumLength = BrandMinLength)]
-        public string? Brand { get; init; }
+        public string Brand { get; set; }
 
         [Required]
         [StringLength(ModelMaxLength, MinimumLength = ModelMinLength)]
-        public string? Model { get; init; }
+        public string Model { get; set; }
 
         [Required]
         [MinLength(DescriptionMinLength)]

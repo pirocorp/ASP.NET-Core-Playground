@@ -20,7 +20,7 @@
         {
             var statistics = new StatisticsServiceModel()
             {
-                TotalCars = await this.dbContext.Cars.CountAsync(),
+                TotalCars = await this.dbContext.Cars.CountAsync(c => c.IsPublic),
                 TotalRents = 0,
                 TotalUsers = await this.dbContext.Users.CountAsync(),
             };

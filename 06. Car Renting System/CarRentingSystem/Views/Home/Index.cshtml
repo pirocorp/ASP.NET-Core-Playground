@@ -41,7 +41,8 @@
                             class="text-decoration-none text-white"
                             asp-controller="Cars" 
                             asp-action="Details" 
-                            asp-route-id=@car.Id
+                            asp-route-id="@car.Id"
+                            asp-route-information="@car.ToFriendlyUrl()"
                         >@car.Brand @car.Model (@car.Year)</a>
                     </h5>
                 </div>

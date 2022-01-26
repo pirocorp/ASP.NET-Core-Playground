@@ -2,12 +2,14 @@
 {
     using System.Threading.Tasks;
 
-    using CarRentingSystem.Infrastructure;
+    using CarRentingSystem.Infrastructure.Extensions;
     using CarRentingSystem.Models.Dealers;
     using CarRentingSystem.Services.Dealers;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using static WebConstants;
 
     public class DealersController : Controller
     {
@@ -38,6 +40,8 @@
             }
 
             await this.dealerService.CreateDealer(dealer.Name!, dealer.PhoneNumber!, userId);
+
+            this.TempData[GlobalMessageKey] = "Successfully become dealer.";
 
             return this.RedirectToAction(nameof(CarsController.All), "Cars");
         }
