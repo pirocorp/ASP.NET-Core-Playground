@@ -11,6 +11,7 @@
 
     using static WebConstants;
 
+    [Authorize]
     public class DealersController : Controller
     {
         private readonly IDealerService dealerService;
@@ -20,10 +21,8 @@
             this.dealerService = dealerService;
         }
 
-        [Authorize]
         public IActionResult Create() => this.View();
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(BecomeDealerFormModel dealer)
         {

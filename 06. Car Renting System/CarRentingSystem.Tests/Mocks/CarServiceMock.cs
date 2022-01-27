@@ -6,14 +6,6 @@
 
     public static class CarServiceMock
     {
-        public static ICarService Instance
-        {
-            get
-            {
-                var carServiceMock = new Mock<ICarService>();
-
-                return carServiceMock.Object;
-            }
-        }
+        public static ICarService Instance => new Mock<ICarService>().Object;
     }
 }

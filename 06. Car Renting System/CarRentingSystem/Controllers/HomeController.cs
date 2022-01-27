@@ -10,6 +10,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
 
+    using static CarRentingSystem.WebConstants.Cache;
+
     public class HomeController : Controller
     {
         private readonly ICarService carService;
@@ -25,21 +27,21 @@
 
         public async Task<IActionResult> Index()
         {
-            const string latestCarsCacheKey = "LatestCarsCacheKey";
-
             var latestCars = this.memoryCache
-                .Get<IEnumerable<CarLatestServiceModel>>(latestCarsCacheKey);
+                .Get<IEnumerable<CarLatestServiceModel>>(LatestCarsCacheKey);
 
-            if (latestCars is null)
+            if (latestCars is not null)
             {
-                latestCars = await this.carService.GetLatestCars(WebConstants.CarouselSize);
-
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
-
-                this.memoryCache
-                    .Set(latestCarsCacheKey, latestCars, cacheOptions);
+                return this.View(latestCars);
             }
+
+            latestCars = await this.carService.GetLatestCars(WebConstants.CarouselSize);
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+            this.memoryCache
+                .Set(LatestCarsCacheKey, latestCars, cacheOptions);
 
             return this.View(latestCars);
         }
