@@ -289,3 +289,16 @@ app.MapGet("/", () => message);
 
 app.Run();
 ```
+
+ 
+## Logging
+
+```csharp
+var app = WebApplication.Create(args);
+
+app.Logger.LogInformation("The app started");
+
+app.MapGet("/", () => "Hello World");
+
+app.Run();
+```
