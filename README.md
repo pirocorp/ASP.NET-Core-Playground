@@ -1,2 +1,4 @@
 # ASP.NET-Core-Playground
-ASP.NET Core and C# Demos and Tests
+
+
+[Implementing Domain Driven Design](https://docs.abp.io/en/abp/4.0/Domain-Driven-Design-Implementation-Guide)
